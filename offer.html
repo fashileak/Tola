@@ -1,0 +1,1674 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tola — Invoicing PWA for Lawn Care</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green-900: #0b3d2e;
+        --green-700: #14693f;
+        --green-500: #1a9956;
+        --green-400: #2bbb6e;
+        --green-100: #e8f7ef;
+        --green-50: #f3fbf7;
+        --gold: #d4a843;
+        --gold-light: #fff8e7;
+        --slate-900: #1a1d23;
+        --slate-700: #3a3f4b;
+        --slate-500: #6b7280;
+        --slate-200: #e5e7eb;
+        --slate-100: #f3f4f6;
+        --white: #ffffff;
+        --radius: 10px;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        color: var(--slate-700);
+        background: var(--slate-100);
+        line-height: 1.65;
+        font-size: 15px;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page-wrapper {
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 20px 16px 60px;
+      }
+
+      /* Language Toggle */
+      .lang-toggle {
+        display: flex;
+        justify-content: center;
+        gap: 4px;
+        margin-bottom: 28px;
+        background: var(--white);
+        border-radius: 50px;
+        padding: 4px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: var(--shadow-sm);
+      }
+      .lang-btn {
+        padding: 8px 24px;
+        border: none;
+        border-radius: 50px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        background: transparent;
+        color: var(--slate-500);
+      }
+      .lang-btn.active {
+        background: var(--green-900);
+        color: var(--white);
+        box-shadow: 0 2px 8px rgba(11, 61, 46, 0.25);
+      }
+      .lang-btn:hover:not(.active) {
+        color: var(--green-700);
+      }
+
+      .lang-content {
+        display: none;
+      }
+      .lang-content.active {
+        display: block;
+      }
+
+      /* Card */
+      .offer-card {
+        background: var(--white);
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+      }
+
+      /* Header */
+      .offer-header {
+        background: linear-gradient(
+          135deg,
+          var(--green-900) 0%,
+          var(--green-700) 100%
+        );
+        padding: 44px 40px 38px;
+        color: var(--white);
+        position: relative;
+        overflow: hidden;
+      }
+      .offer-header::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .offer-header::after {
+        content: "";
+        position: absolute;
+        bottom: -60px;
+        left: 30%;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .doc-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        color: var(--green-400);
+        margin-bottom: 14px;
+      }
+      .offer-header h1 {
+        font-family: "Fraunces", serif;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.25;
+        margin-bottom: 10px;
+      }
+      .offer-header p {
+        font-size: 15px;
+        opacity: 0.8;
+        max-width: 480px;
+        line-height: 1.6;
+      }
+
+      /* Body */
+      .offer-body {
+        padding: 36px 40px 44px;
+      }
+
+      .section {
+        margin-bottom: 32px;
+      }
+      .section:last-child {
+        margin-bottom: 0;
+      }
+
+      .section h2 {
+        font-family: "Fraunces", serif;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--green-900);
+        margin-bottom: 10px;
+        line-height: 1.35;
+      }
+
+      .section p {
+        margin-bottom: 10px;
+        color: var(--slate-700);
+      }
+      .section p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Steps */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin: 16px 0;
+        position: relative;
+        padding-left: 36px;
+      }
+      .steps::before {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 18px;
+        bottom: 18px;
+        width: 2px;
+        background: var(--green-100);
+      }
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 10px 0;
+        position: relative;
+      }
+      .step-num {
+        position: absolute;
+        left: -36px;
+        width: 28px;
+        height: 28px;
+        background: var(--green-500);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        flex-shrink: 0;
+        z-index: 1;
+      }
+      .step-text {
+        font-size: 14.5px;
+        line-height: 1.55;
+        padding-top: 3px;
+      }
+      .step-text strong {
+        color: var(--green-900);
+        font-weight: 600;
+      }
+
+      /* Benefits */
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .benefit-item {
+        background: var(--green-50);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        border-left: 3px solid var(--green-400);
+      }
+      .benefit-item strong {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--green-900);
+        margin-bottom: 3px;
+      }
+      .benefit-item span {
+        font-size: 13.5px;
+        color: var(--slate-500);
+        line-height: 1.5;
+      }
+
+      /* Pricing Box */
+      .pricing-box {
+        background: var(--gold-light);
+        border: 1.5px solid var(--gold);
+        border-radius: var(--radius);
+        padding: 24px 28px;
+        text-align: center;
+        margin: 16px 0;
+      }
+      .pricing-box .price {
+        font-family: "Fraunces", serif;
+        font-size: 44px;
+        font-weight: 700;
+        color: var(--green-900);
+        line-height: 1;
+      }
+      .pricing-box .price-label {
+        font-size: 14px;
+        color: var(--slate-500);
+        margin-top: 6px;
+      }
+      .pricing-box .price-detail {
+        font-size: 13.5px;
+        color: var(--slate-500);
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(212, 168, 67, 0.3);
+      }
+
+      /* Vision list */
+      .vision-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0;
+      }
+      .vision-tag {
+        background: var(--slate-100);
+        border-radius: 50px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--slate-700);
+      }
+
+      /* CTA */
+      .cta-section {
+        background: linear-gradient(135deg, var(--green-900), var(--green-700));
+        border-radius: var(--radius);
+        padding: 28px 28px;
+        text-align: center;
+        margin-top: 32px;
+      }
+      .cta-section p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 15px;
+        margin-bottom: 18px;
+      }
+      .cta-btn {
+        display: inline-block;
+        background: var(--gold);
+        color: var(--green-900);
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 14px 36px;
+        border-radius: 50px;
+        text-decoration: none;
+        letter-spacing: 0.3px;
+        box-shadow: 0 4px 16px rgba(212, 168, 67, 0.35);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .cta-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(212, 168, 67, 0.45);
+      }
+
+      /* Phone mockup */
+      .phone-mockup {
+        background: var(--slate-900);
+        border-radius: 20px;
+        padding: 12px;
+        max-width: 260px;
+        margin: 20px auto;
+        box-shadow: var(--shadow-lg);
+      }
+      .phone-screen {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 18px 16px;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: var(--slate-700);
+      }
+      .phone-screen .ps-header {
+        font-weight: 700;
+        color: var(--green-900);
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      .phone-screen .ps-sub {
+        color: var(--slate-500);
+        font-size: 11px;
+        margin-bottom: 14px;
+      }
+      .phone-screen .ps-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--slate-200);
+      }
+      .phone-screen .ps-row:last-child {
+        border-bottom: none;
+      }
+      .ps-name {
+        font-weight: 600;
+        font-size: 12.5px;
+        color: var(--slate-900);
+      }
+      .ps-addr {
+        font-size: 11px;
+        color: var(--slate-500);
+      }
+      .ps-amount {
+        font-weight: 700;
+        color: var(--green-500);
+        font-size: 13px;
+      }
+      .ps-status {
+        font-size: 10px;
+        color: var(--slate-500);
+      }
+      .ps-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .ps-btn {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .ps-btn-primary {
+        background: var(--green-500);
+        color: white;
+      }
+      .ps-btn-secondary {
+        background: var(--slate-100);
+        color: var(--slate-700);
+      }
+
+      /* New phone screen styles */
+      .ps-input {
+        background: var(--slate-100);
+        border: none;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 11.5px;
+        color: var(--slate-500);
+        width: 100%;
+        margin-bottom: 8px;
+        font-family: "DM Sans", sans-serif;
+      }
+      .ps-btn-gold {
+        background: var(--gold);
+        color: var(--green-900);
+        border: none;
+        border-radius: 8px;
+        padding: 11px 0;
+        font-size: 12px;
+        font-weight: 700;
+        width: 100%;
+        text-align: center;
+        font-family: "DM Sans", sans-serif;
+        cursor: pointer;
+        margin-top: 4px;
+      }
+      .ps-celebration {
+        background: var(--green-500);
+        color: white;
+        border-radius: 10px;
+        padding: 14px;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+      .ps-celebration .ps-cel-icon {
+        font-size: 22px;
+        margin-bottom: 4px;
+      }
+      .ps-celebration .ps-cel-title {
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .ps-celebration .ps-cel-sub {
+        font-size: 11px;
+        opacity: 0.9;
+      }
+      .ps-success-header {
+        background: var(--green-500);
+        color: white;
+        border-radius: 10px 10px 0 0;
+        padding: 16px;
+        text-align: center;
+        margin: -18px -16px 14px;
+      }
+      .ps-success-header .ps-check-icon {
+        font-size: 28px;
+        margin-bottom: 4px;
+      }
+      .ps-success-header .ps-success-title {
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .ps-stripe-header {
+        background: #635bff;
+        color: white;
+        border-radius: 10px 10px 0 0;
+        padding: 12px 16px;
+        margin: -18px -16px 14px;
+        font-weight: 700;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .ps-radio {
+        display: flex;
+        gap: 8px;
+        margin: 8px 0;
+      }
+      .ps-radio-option {
+        flex: 1;
+        background: var(--slate-100);
+        border-radius: 8px;
+        padding: 9px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--slate-700);
+        text-align: center;
+        border: 2px solid transparent;
+        cursor: pointer;
+      }
+      .ps-radio-option.selected {
+        border-color: var(--green-500);
+        background: var(--green-50);
+      }
+      .ps-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 0;
+        font-size: 11.5px;
+        color: var(--slate-700);
+      }
+      .ps-check-box {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 2px solid var(--slate-200);
+        flex-shrink: 0;
+      }
+      .ps-search {
+        background: var(--slate-100);
+        border: none;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 11.5px;
+        color: var(--slate-500);
+        width: 100%;
+        margin-bottom: 10px;
+        font-family: "DM Sans", sans-serif;
+      }
+      .ps-divider {
+        height: 1px;
+        background: var(--slate-200);
+        margin: 10px 0;
+      }
+      .ps-progress {
+        text-align: center;
+        font-size: 10px;
+        color: var(--slate-500);
+        margin-top: 8px;
+      }
+      .ps-trust {
+        text-align: center;
+        font-size: 10px;
+        color: var(--slate-500);
+        margin-top: 8px;
+      }
+      .ps-weekly {
+        background: var(--green-50);
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ps-weekly-label {
+        font-size: 11px;
+        color: var(--slate-500);
+      }
+      .ps-weekly-amount {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--green-900);
+      }
+      .ps-weekly-trend {
+        font-size: 10px;
+        color: var(--green-500);
+        font-weight: 600;
+      }
+      .ps-remind-btn {
+        background: #fff3cd;
+        color: #856404;
+        border: none;
+        border-radius: 4px;
+        padding: 3px 8px;
+        font-size: 9px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        margin-top: 2px;
+      }
+      .ps-btn-continue {
+        background: #635bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 0;
+        font-size: 12px;
+        font-weight: 700;
+        width: 100%;
+        text-align: center;
+        margin-top: 8px;
+      }
+      .ps-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--slate-500);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        margin-top: 8px;
+      }
+      .ps-ssn-dots {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 11px;
+        color: var(--slate-500);
+        margin-bottom: 8px;
+      }
+      .ps-ssn-dots span {
+        letter-spacing: 3px;
+      }
+      .ps-customer-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--slate-200);
+        cursor: pointer;
+      }
+      .ps-customer-item:last-child {
+        border-bottom: none;
+      }
+      .ps-usual {
+        font-size: 10px;
+        color: var(--slate-500);
+        font-weight: 400;
+      }
+      .ps-amount-big {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--green-900);
+        text-align: center;
+        margin: 6px 0;
+      }
+      .ps-extras-title {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--slate-700);
+        margin-top: 10px;
+        margin-bottom: 6px;
+      }
+
+      /* Screen flow layout */
+      .screen-flow {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 16px;
+        padding: 20px 0;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .screen-flow::-webkit-scrollbar {
+        display: none;
+      }
+      .screen-item {
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .screen-item .phone-mockup {
+        margin: 0;
+      }
+      .screen-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--slate-500);
+        text-align: center;
+        margin-top: 10px;
+      }
+      .screen-arrow {
+        display: flex;
+        align-items: center;
+        color: var(--slate-200);
+        font-size: 24px;
+        flex-shrink: 0;
+        padding-top: 0;
+        align-self: center;
+        margin-bottom: 20px;
+      }
+
+      /* Responsive */
+      @media (max-width: 640px) {
+        .page-wrapper {
+          padding: 12px 8px 40px;
+        }
+        .offer-header {
+          padding: 32px 24px 28px;
+        }
+        .offer-header h1 {
+          font-size: 23px;
+        }
+        .offer-body {
+          padding: 28px 24px 36px;
+        }
+        .benefits-grid {
+          grid-template-columns: 1fr;
+        }
+        .phone-mockup {
+          max-width: 220px;
+        }
+        .screen-flow {
+          gap: 10px;
+          padding: 16px 0;
+        }
+        .screen-arrow {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- Language Toggle -->
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="switchLang('en')">
+          English
+        </button>
+        <button class="lang-btn" onclick="switchLang('es')">Español</button>
+      </div>
+
+      <!-- ==================== ENGLISH ==================== -->
+      <div id="lang-en" class="lang-content active">
+        <div class="offer-card">
+          <div class="offer-header">
+            <div class="doc-label">Business Proposal</div>
+            <h1>Get Paid the Same Day You Mow</h1>
+            <p>
+              A simple invoicing tool built for lawn care professionals — no app
+              store, no monthly fees, no headaches.
+            </p>
+          </div>
+
+          <div class="offer-body">
+            <div class="section">
+              <h2>
+                You Shouldn't Chase Money After You've Already Done the Work
+              </h2>
+              <p>
+                You're great at what you do. But at the end of a long day, the
+                last thing you want is to sit down and figure out who owes you,
+                type up invoices, and send awkward reminder texts. Late payments
+                pile up. Cash flow gets tight. Customers forget. You lose track.
+              </p>
+              <p>
+                We built a tool that fixes this — and it lives right on your
+                phone.
+              </p>
+            </div>
+
+            <div class="section">
+              <h2>What Is It?</h2>
+              <p>
+                It's a <strong>Progressive Web App</strong> — which means it
+                works like an app but you don't download it from any store. You
+                open a link, tap "Add to Home Screen," and you're set. It works
+                on any phone, any computer, updates itself automatically, and
+                even works with a weak signal. No accounts to create. No
+                passwords to remember.
+              </p>
+            </div>
+
+            <div class="section">
+              <h2>How It Works</h2>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-num">1</div>
+                  <div class="step-text">
+                    <strong>Finish the job.</strong> Open the app, tap the
+                    customer's name.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">2</div>
+                  <div class="step-text">
+                    <strong>Invoice sent.</strong> Your customer gets a text
+                    with a secure payment link — instantly.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">3</div>
+                  <div class="step-text">
+                    <strong>Customer pays.</strong> Card, Apple Pay, Google Pay.
+                    One tap on their end.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">4</div>
+                  <div class="step-text">
+                    <strong>Money in your account.</strong> You get notified.
+                    Funds deposited to your bank or debit card.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">5</div>
+                  <div class="step-text">
+                    <strong>Everything tracked.</strong> Payment history,
+                    customer list, and outstanding balances — all in one place.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone mockup screens -->
+              <div class="screen-flow">
+                <!-- Screen 1: Signup -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div style="text-align: center; margin-bottom: 4px">
+                        <div
+                          style="
+                            font-size: 11px;
+                            color: var(--slate-500);
+                            margin-bottom: 12px;
+                          "
+                        >
+                          Get paid the same day
+                        </div>
+                      </div>
+                      <div class="ps-input">Your name</div>
+                      <div class="ps-input">Business name</div>
+                      <div class="ps-input">Phone number</div>
+                      <div class="ps-btn-gold">Start Getting Paid →</div>
+                      <div class="ps-progress">Step 1 of 2 · Takes 30 sec</div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Sign Up</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 2: Payment Notification -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-celebration">
+                        <div class="ps-cel-icon">🎉</div>
+                        <div class="ps-cel-title">John just paid $50!</div>
+                        <div class="ps-cel-sub">Your first payment is here</div>
+                      </div>
+                      <div
+                        style="
+                          text-align: center;
+                          font-size: 12px;
+                          color: var(--slate-700);
+                          margin-bottom: 12px;
+                        "
+                      >
+                        Connect your bank to get<br />your money deposited.
+                      </div>
+                      <div
+                        class="ps-btn ps-btn-primary"
+                        style="
+                          padding: 11px 0;
+                          border-radius: 8px;
+                          font-size: 12px;
+                        "
+                      >
+                        Connect Bank Account →
+                      </div>
+                      <div class="ps-trust">Secure · Takes 2 min</div>
+                    </div>
+                  </div>
+                  <div class="screen-label">First Payment</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 3: Stripe Onboarding -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-stripe-header">
+                        <span>Set up payouts</span>
+                      </div>
+                      <div class="ps-input">Legal full name</div>
+                      <div class="ps-input">Date of birth</div>
+                      <div class="ps-label">Last 4 of SSN</div>
+                      <div class="ps-ssn-dots"><span>• • • •</span></div>
+                      <div class="ps-label">Payout method</div>
+                      <div class="ps-radio">
+                        <div class="ps-radio-option selected">🏦 Bank</div>
+                        <div class="ps-radio-option">💳 Debit</div>
+                      </div>
+                      <div class="ps-btn-continue">Continue</div>
+                      <div class="ps-trust">🔒 Secured by Stripe</div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Stripe Setup</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 4: Bank Connected -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-success-header">
+                        <div class="ps-check-icon">✓</div>
+                        <div class="ps-success-title">Bank Connected!</div>
+                      </div>
+                      <div
+                        style="
+                          text-align: center;
+                          font-size: 12px;
+                          color: var(--slate-700);
+                          line-height: 1.6;
+                          margin-bottom: 14px;
+                        "
+                      >
+                        <strong>$50 from John</strong> will hit your account by
+                        tomorrow morning.
+                      </div>
+                      <div
+                        style="
+                          text-align: center;
+                          font-size: 11px;
+                          color: var(--slate-500);
+                          margin-bottom: 14px;
+                        "
+                      >
+                        All future payments will be deposited automatically.
+                      </div>
+                      <div
+                        class="ps-btn ps-btn-primary"
+                        style="
+                          padding: 11px 0;
+                          border-radius: 8px;
+                          font-size: 12px;
+                        "
+                      >
+                        Go to Dashboard →
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Confirmed</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 5: Dashboard -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-header">Dashboard</div>
+                      <div class="ps-sub">
+                        Tue Mar 17 &nbsp;·&nbsp; Unpaid (3) $185
+                      </div>
+                      <div class="ps-row">
+                        <div>
+                          <div class="ps-name">John M</div>
+                          <div class="ps-addr">123 Main St</div>
+                        </div>
+                        <div style="text-align: right">
+                          <div class="ps-amount">$50</div>
+                          <div class="ps-status">Sent today</div>
+                        </div>
+                      </div>
+                      <div class="ps-row">
+                        <div>
+                          <div class="ps-name">⚠️ Sarah K</div>
+                          <div class="ps-addr">456 Oak Ave</div>
+                        </div>
+                        <div style="text-align: right">
+                          <div class="ps-amount">$65</div>
+                          <div class="ps-status">5 days ago</div>
+                          <div class="ps-remind-btn">Remind</div>
+                        </div>
+                      </div>
+                      <div class="ps-row">
+                        <div>
+                          <div class="ps-name">Mike R</div>
+                          <div class="ps-addr">789 Elm Dr</div>
+                        </div>
+                        <div style="text-align: right">
+                          <div class="ps-amount">$70</div>
+                          <div class="ps-status">Sent today</div>
+                        </div>
+                      </div>
+                      <div class="ps-weekly">
+                        <div>
+                          <div class="ps-weekly-label">This week</div>
+                          <div class="ps-weekly-amount">$650 earned</div>
+                        </div>
+                        <div class="ps-weekly-trend">↑ 12% vs last week</div>
+                      </div>
+                      <div class="ps-buttons">
+                        <div class="ps-btn ps-btn-primary">✓ JOB DONE</div>
+                        <div class="ps-btn ps-btn-secondary">+ ADD CLIENT</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Dashboard</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 6: Customer Selection -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-header">Who'd you mow for?</div>
+                      <div class="ps-search">🔍 Search customers...</div>
+                      <div
+                        style="
+                          font-size: 10px;
+                          font-weight: 600;
+                          color: var(--slate-500);
+                          text-transform: uppercase;
+                          letter-spacing: 0.5px;
+                          margin-bottom: 6px;
+                        "
+                      >
+                        Recent
+                      </div>
+                      <div class="ps-customer-item">
+                        <div>
+                          <div class="ps-name">John M</div>
+                          <div class="ps-addr">123 Main St</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate-500)">
+                          $50 usual
+                        </div>
+                      </div>
+                      <div class="ps-customer-item">
+                        <div>
+                          <div class="ps-name">Sarah K</div>
+                          <div class="ps-addr">456 Oak Ave</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate-500)">
+                          $65 usual
+                        </div>
+                      </div>
+                      <div class="ps-customer-item">
+                        <div>
+                          <div class="ps-name">Mike R</div>
+                          <div class="ps-addr">789 Elm Dr</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate-500)">
+                          $70 usual
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Select Customer</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 7: Invoice Creation -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-header">John M</div>
+                      <div class="ps-sub">123 Main St</div>
+                      <div class="ps-amount-big">
+                        $50 <span class="ps-usual">(usual)</span>
+                      </div>
+                      <div class="ps-extras-title">Extra service?</div>
+                      <div class="ps-check">
+                        <div class="ps-check-box"></div>
+                        Edging (+$10)
+                      </div>
+                      <div class="ps-check">
+                        <div class="ps-check-box"></div>
+                        Leaf cleanup (+$15)
+                      </div>
+                      <div class="ps-check">
+                        <div class="ps-check-box"></div>
+                        Hedge trim (+$20)
+                      </div>
+                      <div class="ps-divider"></div>
+                      <div
+                        class="ps-btn ps-btn-primary"
+                        style="
+                          padding: 11px 0;
+                          border-radius: 8px;
+                          font-size: 12px;
+                        "
+                      >
+                        Send Invoice →
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Create Invoice</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>What This Means for Your Business</h2>
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <strong>Faster Cash Flow</strong>
+                  <span
+                    >Get paid same-day instead of chasing checks for
+                    weeks.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Hours Saved Weekly</strong>
+                  <span
+                    >No more manual invoicing, spreadsheets, or reminder
+                    texts.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Professional Image</strong>
+                  <span
+                    >Your customers get a clean, branded payment
+                    experience.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Complete Visibility</strong>
+                  <span
+                    >See who paid, who hasn't, and how your week is trending —
+                    live.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Customer Database</strong>
+                  <span
+                    >Every client, address, and payment history — organized and
+                    searchable.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Fewer Errors</strong>
+                  <span
+                    >No forgotten invoices, lost receipts, or mismatched
+                    numbers.</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Simple, Transparent Pricing</h2>
+              <div class="pricing-box">
+                <div class="price">1%</div>
+                <div class="price-label">of each successfully paid invoice</div>
+                <div class="price-detail">
+                  No monthly fees. No setup costs. No contracts.<br />You only
+                  pay when you get paid.
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Where We're Going Together</h2>
+              <p>
+                This is just the beginning. We're building a complete operating
+                system for lawn care businesses — and early partners like you
+                will shape what comes next.
+              </p>
+              <div class="vision-list">
+                <span class="vision-tag">Job Scheduling</span>
+                <span class="vision-tag">Smart Route Optimization</span>
+                <span class="vision-tag">Crew Management</span>
+                <span class="vision-tag">Business Analytics</span>
+                <span class="vision-tag">Automated Reminders</span>
+                <span class="vision-tag">Recurring Billing</span>
+              </div>
+            </div>
+
+            <!-- <div class="cta-section">
+              <p>
+                Ready to stop chasing payments and start growing your business?
+                Let's get you set up — it takes less than five minutes.
+              </p>
+              <a href="#" class="cta-btn">Request a Demo →</a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SPANISH ==================== -->
+      <div id="lang-es" class="lang-content">
+        <div class="offer-card">
+          <div class="offer-header">
+            <div class="doc-label">Propuesta de Negocio</div>
+            <h1>Cobre el Mismo Día que Trabaja</h1>
+            <p>
+              Una herramienta de facturación diseñada para profesionales del
+              cuidado de jardines — sin tienda de apps, sin mensualidades, sin
+              complicaciones.
+            </p>
+          </div>
+
+          <div class="offer-body">
+            <div class="section">
+              <h2>
+                Usted No Debería Perseguir Pagos Después de un Día de Trabajo
+              </h2>
+              <p>
+                Usted es excelente en lo que hace. Pero al final de un día
+                largo, lo último que quiere es sentarse a calcular quién le
+                debe, escribir facturas y enviar mensajes incómodos. Los pagos
+                atrasados se acumulan. El flujo de efectivo se complica. Los
+                clientes se olvidan.
+              </p>
+              <p>
+                Creamos una herramienta que resuelve esto — y vive directamente
+                en su teléfono.
+              </p>
+            </div>
+
+            <div class="section">
+              <h2>¿Qué Es?</h2>
+              <p>
+                Es una <strong>Aplicación Web Progresiva (PWA)</strong> —
+                funciona como una app, pero no necesita descargarla de ninguna
+                tienda. Abre un enlace, toca "Agregar a pantalla de inicio" y
+                listo. Funciona en cualquier teléfono, cualquier computadora, se
+                actualiza sola y funciona incluso con señal débil. Sin cuentas.
+                Sin contraseñas.
+              </p>
+            </div>
+
+            <div class="section">
+              <h2>Cómo Funciona</h2>
+              <div class="steps">
+                <div class="step">
+                  <div class="step-num">1</div>
+                  <div class="step-text">
+                    <strong>Termina el trabajo.</strong> Abra la app, toque el
+                    nombre del cliente.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">2</div>
+                  <div class="step-text">
+                    <strong>Factura enviada.</strong> Su cliente recibe un
+                    mensaje con un enlace de pago seguro — al instante.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">3</div>
+                  <div class="step-text">
+                    <strong>El cliente paga.</strong> Tarjeta, Apple Pay, Google
+                    Pay. Un toque de su lado.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">4</div>
+                  <div class="step-text">
+                    <strong>Dinero en su cuenta.</strong> Recibe notificación.
+                    Fondos depositados a su banco o tarjeta de débito.
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="step-num">5</div>
+                  <div class="step-text">
+                    <strong>Todo registrado.</strong> Historial de pagos, lista
+                    de clientes y saldos pendientes — todo en un solo lugar.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone mockup screens -->
+              <div class="screen-flow">
+                <!-- Screen 1: Registro -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div style="text-align: center; margin-bottom: 4px">
+                        <div
+                          style="
+                            font-size: 11px;
+                            color: var(--slate-500);
+                            margin-bottom: 12px;
+                          "
+                        >
+                          Cobre el mismo día
+                        </div>
+                      </div>
+                      <div class="ps-input">Su nombre</div>
+                      <div class="ps-input">Nombre del negocio</div>
+                      <div class="ps-input">Número de teléfono</div>
+                      <div class="ps-btn-gold">Empezar a Cobrar →</div>
+                      <div class="ps-progress">Paso 1 de 2 · Toma 30 seg</div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Registro</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 2: Notificación de pago -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-celebration">
+                        <div class="ps-cel-icon">🎉</div>
+                        <div class="ps-cel-title">¡John pagó $50!</div>
+                        <div class="ps-cel-sub">Su primer pago está aquí</div>
+                      </div>
+                      <div
+                        style="
+                          text-align: center;
+                          font-size: 12px;
+                          color: var(--slate-700);
+                          margin-bottom: 12px;
+                        "
+                      >
+                        Conecte su banco para recibir<br />su dinero depositado.
+                      </div>
+                      <div
+                        class="ps-btn ps-btn-primary"
+                        style="
+                          padding: 11px 0;
+                          border-radius: 8px;
+                          font-size: 12px;
+                        "
+                      >
+                        Conectar Cuenta Bancaria →
+                      </div>
+                      <div class="ps-trust">Seguro · Toma 2 min</div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Primer Pago</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 3: Configuración Stripe -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-stripe-header">
+                        <span>Configurar pagos</span>
+                      </div>
+                      <div class="ps-input">Nombre legal completo</div>
+                      <div class="ps-input">Fecha de nacimiento</div>
+                      <div class="ps-label">Últimos 4 del SSN</div>
+                      <div class="ps-ssn-dots"><span>• • • •</span></div>
+                      <div class="ps-label">Método de pago</div>
+                      <div class="ps-radio">
+                        <div class="ps-radio-option selected">🏦 Banco</div>
+                        <div class="ps-radio-option">💳 Débito</div>
+                      </div>
+                      <div class="ps-btn-continue">Continuar</div>
+                      <div class="ps-trust">🔒 Protegido por Stripe</div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Config. Stripe</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 4: Banco Conectado -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-success-header">
+                        <div class="ps-check-icon">✓</div>
+                        <div class="ps-success-title">¡Banco Conectado!</div>
+                      </div>
+                      <div
+                        style="
+                          text-align: center;
+                          font-size: 12px;
+                          color: var(--slate-700);
+                          line-height: 1.6;
+                          margin-bottom: 14px;
+                        "
+                      >
+                        <strong>$50 de John</strong> llegará a su cuenta mañana
+                        por la mañana.
+                      </div>
+                      <div
+                        style="
+                          text-align: center;
+                          font-size: 11px;
+                          color: var(--slate-500);
+                          margin-bottom: 14px;
+                        "
+                      >
+                        Todos los pagos futuros se depositarán automáticamente.
+                      </div>
+                      <div
+                        class="ps-btn ps-btn-primary"
+                        style="
+                          padding: 11px 0;
+                          border-radius: 8px;
+                          font-size: 12px;
+                        "
+                      >
+                        Ir al Panel →
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Confirmado</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 5: Panel Principal -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-header">Panel Principal</div>
+                      <div class="ps-sub">
+                        Mar 17 Mar &nbsp;·&nbsp; Pendiente (3) $185
+                      </div>
+                      <div class="ps-row">
+                        <div>
+                          <div class="ps-name">John M</div>
+                          <div class="ps-addr">123 Main St</div>
+                        </div>
+                        <div style="text-align: right">
+                          <div class="ps-amount">$50</div>
+                          <div class="ps-status">Enviado hoy</div>
+                        </div>
+                      </div>
+                      <div class="ps-row">
+                        <div>
+                          <div class="ps-name">⚠️ Sarah K</div>
+                          <div class="ps-addr">456 Oak Ave</div>
+                        </div>
+                        <div style="text-align: right">
+                          <div class="ps-amount">$65</div>
+                          <div class="ps-status">Hace 5 días</div>
+                          <div class="ps-remind-btn">Recordar</div>
+                        </div>
+                      </div>
+                      <div class="ps-row">
+                        <div>
+                          <div class="ps-name">Mike R</div>
+                          <div class="ps-addr">789 Elm Dr</div>
+                        </div>
+                        <div style="text-align: right">
+                          <div class="ps-amount">$70</div>
+                          <div class="ps-status">Enviado hoy</div>
+                        </div>
+                      </div>
+                      <div class="ps-weekly">
+                        <div>
+                          <div class="ps-weekly-label">Esta semana</div>
+                          <div class="ps-weekly-amount">$650 ganados</div>
+                        </div>
+                        <div class="ps-weekly-trend">
+                          ↑ 12% vs semana pasada
+                        </div>
+                      </div>
+                      <div class="ps-buttons">
+                        <div class="ps-btn ps-btn-primary">✓ TRABAJO LISTO</div>
+                        <div class="ps-btn ps-btn-secondary">
+                          + NUEVO CLIENTE
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Panel Principal</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 6: Selección de Cliente -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-header">¿A quién le cortó?</div>
+                      <div class="ps-search">🔍 Buscar clientes...</div>
+                      <div
+                        style="
+                          font-size: 10px;
+                          font-weight: 600;
+                          color: var(--slate-500);
+                          text-transform: uppercase;
+                          letter-spacing: 0.5px;
+                          margin-bottom: 6px;
+                        "
+                      >
+                        Recientes
+                      </div>
+                      <div class="ps-customer-item">
+                        <div>
+                          <div class="ps-name">John M</div>
+                          <div class="ps-addr">123 Main St</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate-500)">
+                          $50 usual
+                        </div>
+                      </div>
+                      <div class="ps-customer-item">
+                        <div>
+                          <div class="ps-name">Sarah K</div>
+                          <div class="ps-addr">456 Oak Ave</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate-500)">
+                          $65 usual
+                        </div>
+                      </div>
+                      <div class="ps-customer-item">
+                        <div>
+                          <div class="ps-name">Mike R</div>
+                          <div class="ps-addr">789 Elm Dr</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate-500)">
+                          $70 usual
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Elegir Cliente</div>
+                </div>
+
+                <div class="screen-arrow">→</div>
+
+                <!-- Screen 7: Crear Factura -->
+                <div class="screen-item">
+                  <div class="phone-mockup">
+                    <div class="phone-screen">
+                      <div class="ps-header">John M</div>
+                      <div class="ps-sub">123 Main St</div>
+                      <div class="ps-amount-big">
+                        $50 <span class="ps-usual">(usual)</span>
+                      </div>
+                      <div class="ps-extras-title">¿Servicio extra?</div>
+                      <div class="ps-check">
+                        <div class="ps-check-box"></div>
+                        Bordeado (+$10)
+                      </div>
+                      <div class="ps-check">
+                        <div class="ps-check-box"></div>
+                        Limpieza de hojas (+$15)
+                      </div>
+                      <div class="ps-check">
+                        <div class="ps-check-box"></div>
+                        Recorte de setos (+$20)
+                      </div>
+                      <div class="ps-divider"></div>
+                      <div
+                        class="ps-btn ps-btn-primary"
+                        style="
+                          padding: 11px 0;
+                          border-radius: 8px;
+                          font-size: 12px;
+                        "
+                      >
+                        Enviar Factura →
+                      </div>
+                    </div>
+                  </div>
+                  <div class="screen-label">Crear Factura</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Qué Significa Esto para Su Negocio</h2>
+              <div class="benefits-grid">
+                <div class="benefit-item">
+                  <strong>Cobro Más Rápido</strong>
+                  <span
+                    >Reciba su dinero el mismo día en vez de perseguir cheques
+                    por semanas.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Horas Ahorradas</strong>
+                  <span
+                    >Olvídese de facturas manuales, hojas de cálculo y mensajes
+                    de cobro.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Imagen Profesional</strong>
+                  <span
+                    >Sus clientes reciben una experiencia de pago limpia y
+                    profesional.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Visibilidad Total</strong>
+                  <span
+                    >Vea quién pagó, quién no y cómo va su semana — en tiempo
+                    real.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Base de Clientes</strong>
+                  <span
+                    >Cada cliente, dirección e historial de pagos — organizado y
+                    accesible.</span
+                  >
+                </div>
+                <div class="benefit-item">
+                  <strong>Menos Errores</strong>
+                  <span
+                    >Sin facturas olvidadas, recibos perdidos ni números que no
+                    cuadran.</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Precio Simple y Transparente</h2>
+              <div class="pricing-box">
+                <div class="price">1%</div>
+                <div class="price-label">
+                  de cada factura cobrada exitosamente
+                </div>
+                <div class="price-detail">
+                  Sin mensualidades. Sin costo de instalación. Sin contratos.<br />Solo
+                  paga cuando usted cobra.
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Hacia Dónde Vamos Juntos</h2>
+              <p>
+                Esto es solo el inicio. Estamos construyendo un sistema completo
+                para negocios de jardinería — y socios como usted van a definir
+                lo que sigue.
+              </p>
+              <div class="vision-list">
+                <span class="vision-tag">Agenda de Trabajos</span>
+                <span class="vision-tag">Optimización de Rutas</span>
+                <span class="vision-tag">Gestión de Equipo</span>
+                <span class="vision-tag">Análisis del Negocio</span>
+                <span class="vision-tag">Recordatorios Automáticos</span>
+                <span class="vision-tag">Cobro Recurrente</span>
+              </div>
+            </div>
+
+            <!-- <div class="cta-section">
+              <p>
+                ¿Listo para dejar de perseguir pagos y empezar a hacer crecer su
+                negocio? Configuremos su cuenta — toma menos de cinco minutos.
+              </p>
+              <a href="#" class="cta-btn">Solicitar una Demo →</a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function switchLang(lang) {
+        document
+          .querySelectorAll(".lang-content")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".lang-btn")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById("lang-" + lang).classList.add("active");
+        document
+          .querySelector(`.lang-btn[onclick="switchLang('${lang}')"]`)
+          .classList.add("active");
+      }
+    </script>
+  </body>
+</html>
