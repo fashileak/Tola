@@ -158,6 +158,29 @@
         max-width: 480px;
         line-height: 1.6;
       }
+      .header-cta {
+        display: inline-block;
+        margin-top: 20px;
+        background: var(--green);
+        color: #fff;
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 14px 32px;
+        border-radius: var(--radius);
+        text-decoration: none;
+        box-shadow: 0 4px 16px rgba(29, 185, 84, 0.3);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+        position: relative;
+        z-index: 1;
+      }
+      .header-cta:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(29, 185, 84, 0.4);
+      }
+      .header-cta:active {
+        transform: scale(0.97);
+      }
 
       /* Body */
       .offer-body {
@@ -369,7 +392,7 @@
         border-radius: var(--radius);
         padding: 28px 28px;
         text-align: center;
-        margin-top: 32px;
+        margin-bottom: 32px;
       }
       .cta-section p {
         color: var(--text2);
@@ -816,6 +839,7 @@
               A simple invoicing tool built for lawn care professionals — no app
               store, no monthly fees, no headaches.
             </p>
+            <a href="tola-prototype.html" class="header-cta">Try the Prototype →</a>
           </div>
 
           <div class="offer-body">
@@ -1294,6 +1318,7 @@
               cuidado de jardines — sin tienda de apps, sin mensualidades, sin
               complicaciones.
             </p>
+            <a href="tola-prototype.html" class="header-cta">Probar el Prototipo →</a>
           </div>
 
           <div class="offer-body">
