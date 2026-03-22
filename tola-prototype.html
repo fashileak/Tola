@@ -1,1230 +1,1955 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0A0F0D">
-<title>Tola — Get paid today</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVG9sYSIsInNob3J0X25hbWUiOiJUb2xhIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwQTBGMEQiLCJ0aGVtZV9jb2xvciI6IiMwQTBGMEQifQ==">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --green: #1DB954;
-  --green-dim: #17994a;
-  --green-bg: rgba(29,185,84,0.08);
-  --green-bg2: rgba(29,185,84,0.15);
-  --bg: #0A0F0D;
-  --surface: #121A16;
-  --surface2: #1A241E;
-  --surface3: #222E28;
-  --text: #E8EDE9;
-  --text2: #9BA89E;
-  --text3: #5F6D63;
-  --border: rgba(255,255,255,0.06);
-  --danger: #E24B4A;
-  --danger-bg: rgba(226,75,74,0.1);
-  --warn: #EF9F27;
-  --warn-bg: rgba(239,159,39,0.1);
-  --blue: #5B9CF5;
-  --blue-bg: rgba(91,156,245,0.1);
-  --radius: 14px;
-  --radius-sm: 10px;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="theme-color" content="#0A0F0D" />
+    <title>Tola — Get paid today</title>
+    <link
+      rel="manifest"
+      href="data:application/json;base64,eyJuYW1lIjoiVG9sYSIsInNob3J0X25hbWUiOiJUb2xhIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwQTBGMEQiLCJ0aGVtZV9jb2xvciI6IiMwQTBGMEQifQ=="
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green: #1db954;
+        --green-dim: #17994a;
+        --green-bg: rgba(29, 185, 84, 0.08);
+        --green-bg2: rgba(29, 185, 84, 0.15);
+        --bg: #0a0f0d;
+        --surface: #121a16;
+        --surface2: #1a241e;
+        --surface3: #222e28;
+        --text: #e8ede9;
+        --text2: #9ba89e;
+        --text3: #5f6d63;
+        --border: rgba(255, 255, 255, 0.06);
+        --danger: #e24b4a;
+        --danger-bg: rgba(226, 75, 74, 0.1);
+        --warn: #ef9f27;
+        --warn-bg: rgba(239, 159, 39, 0.1);
+        --blue: #5b9cf5;
+        --blue-bg: rgba(91, 156, 245, 0.1);
+        --radius: 14px;
+        --radius-sm: 10px;
+      }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
 
-html, body {
-  font-family: 'DM Sans', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  height: 100%;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+      html,
+      body {
+        font-family:
+          "DM Sans",
+          -apple-system,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        height: 100%;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
 
-.app {
-  max-width: 430px;
-  margin: 0 auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
+      .app {
+        max-width: 430px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
 
-/* Screen transitions */
-.screen {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  pointer-events: none;
-  overflow: hidden;
-}
-.screen.active {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: all;
-  z-index: 2;
-}
-.screen.exit-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
+      /* Screen transitions */
+      .screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateX(40px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .screen.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: all;
+        z-index: 2;
+      }
+      .screen.exit-left {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
 
-/* Status bar */
-.status-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px 8px;
-  font-size: 12px;
-  color: var(--text2);
-  flex-shrink: 0;
-}
+      /* Status bar */
+      .status-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 8px;
+        font-size: 12px;
+        color: var(--text2);
+        flex-shrink: 0;
+      }
 
-/* Common */
-.screen-body {
-  flex: 1;
-  padding: 0 20px 120px;
-  overflow-y: auto;
-  min-height: 0;
-  -webkit-overflow-scrolling: touch;
-}
+      /* Common */
+      .screen-body {
+        flex: 1;
+        padding: 0 20px 120px;
+        overflow-y: auto;
+        min-height: 0;
+        -webkit-overflow-scrolling: touch;
+      }
 
-h1 {
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: -0.5px;
-  color: var(--text);
-  line-height: 1.2;
-}
+      h1 {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        color: var(--text);
+        line-height: 1.2;
+      }
 
-h2 {
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--text);
-  letter-spacing: -0.3px;
-}
+      h2 {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text);
+        letter-spacing: -0.3px;
+      }
 
-.subtitle {
-  font-size: 15px;
-  color: var(--text2);
-  margin-top: 6px;
-  line-height: 1.5;
-}
+      .subtitle {
+        font-size: 15px;
+        color: var(--text2);
+        margin-top: 6px;
+        line-height: 1.5;
+      }
 
-.logo {
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -1px;
-  color: var(--text);
-}
-.logo span { color: var(--green); }
+      .logo {
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -1px;
+        color: var(--text);
+      }
+      .logo span {
+        color: var(--green);
+      }
 
-/* Inputs */
-.input-group { margin-bottom: 14px; }
-.input-group label {
-  display: block;
-  font-size: 12px;
-  color: var(--text3);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.input-field {
-  width: 100%;
-  padding: 14px 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  font-size: 16px;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.input-field:focus {
-  border-color: var(--green);
-}
-.input-field::placeholder { color: var(--text3); }
+      /* Inputs */
+      .input-group {
+        margin-bottom: 14px;
+      }
+      .input-group label {
+        display: block;
+        font-size: 12px;
+        color: var(--text3);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .input-field {
+        width: 100%;
+        padding: 14px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        font-size: 16px;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .input-field:focus {
+        border-color: var(--green);
+      }
+      .input-field::placeholder {
+        color: var(--text3);
+      }
 
-/* Buttons */
-.btn {
-  width: 100%;
-  padding: 16px;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 16px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: transform 0.1s, opacity 0.2s;
-  -webkit-appearance: none;
-}
-.btn:active { transform: scale(0.97); }
-.btn-primary {
-  background: var(--green);
-  color: #fff;
-}
-.btn-primary:disabled {
-  opacity: 0.4;
-  pointer-events: none;
-}
-.btn-secondary {
-  background: var(--surface);
-  color: var(--text2);
-  border: 1px solid var(--border);
-}
-.btn-ghost {
-  background: none;
-  color: var(--text3);
-  padding: 12px;
-  font-size: 14px;
-}
+      /* Buttons */
+      .btn {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 16px;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition:
+          transform 0.1s,
+          opacity 0.2s;
+        -webkit-appearance: none;
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+      .btn-primary {
+        background: var(--green);
+        color: #fff;
+      }
+      .btn-primary:disabled {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+      .btn-secondary {
+        background: var(--surface);
+        color: var(--text2);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost {
+        background: none;
+        color: var(--text3);
+        padding: 12px;
+        font-size: 14px;
+      }
 
-/* Bottom action bar */
-.bottom-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px 20px;
-  padding-bottom: max(16px, env(safe-area-inset-bottom));
-  background: linear-gradient(transparent, var(--bg) 30%);
-  z-index: 10;
-  display: flex;
-  gap: 10px;
-}
-#dashboard-bottom {
-  position: static;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  padding-bottom: 8px;
-}
+      /* Bottom action bar */
+      .bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 16px 20px;
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+        background: linear-gradient(transparent, var(--bg) 30%);
+        z-index: 10;
+        display: flex;
+        gap: 10px;
+      }
+      #dashboard-bottom {
+        position: static;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        padding-bottom: 8px;
+      }
 
-/* Cards */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-.card:active { background: var(--surface2); }
-.card.selected {
-  border-color: var(--green);
-  background: var(--green-bg);
-}
+      /* Cards */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .card:active {
+        background: var(--surface2);
+      }
+      .card.selected {
+        border-color: var(--green);
+        background: var(--green-bg);
+      }
 
-/* Badges */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-.badge-overdue { background: var(--warn-bg); color: var(--warn); }
-.badge-sent { background: var(--blue-bg); color: var(--blue); }
-.badge-paid { background: var(--green-bg); color: var(--green); }
+      /* Badges */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+      }
+      .badge-overdue {
+        background: var(--warn-bg);
+        color: var(--warn);
+      }
+      .badge-sent {
+        background: var(--blue-bg);
+        color: var(--blue);
+      }
+      .badge-paid {
+        background: var(--green-bg);
+        color: var(--green);
+      }
 
-/* PIN input */
-.pin-row { display: flex; gap: 10px; justify-content: center; margin: 28px 0; }
-.pin-box {
-  width: 48px; height: 56px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 500;
-  color: var(--text);
-  transition: border-color 0.2s;
-}
-.pin-box.filled { border-color: var(--green); background: var(--green-bg); }
-.pin-box.active { border-color: var(--green); }
+      /* PIN input */
+      .pin-row {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin: 28px 0;
+      }
+      .pin-box {
+        width: 48px;
+        height: 56px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text);
+        transition: border-color 0.2s;
+      }
+      .pin-box.filled {
+        border-color: var(--green);
+        background: var(--green-bg);
+      }
+      .pin-box.active {
+        border-color: var(--green);
+      }
 
-/* Stat cards */
-.stats { display: flex; gap: 10px; margin-bottom: 24px; }
-.stat {
-  flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-}
-.stat-label { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
-.stat-val { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
+      /* Stat cards */
+      .stats {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .stat {
+        flex: 1;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+      }
+      .stat-label {
+        font-size: 12px;
+        color: var(--text3);
+        margin-bottom: 4px;
+      }
+      .stat-val {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+      }
 
-/* Keypad */
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  max-width: 280px;
-  margin: 0 auto;
-}
-.key {
-  height: 56px;
-  background: var(--surface);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: var(--text);
-  font-size: 22px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.1s;
-}
-.key:active { background: var(--surface2); }
-.key-empty { background: transparent; }
-.key-del { background: transparent; font-size: 16px; }
+      /* Keypad */
+      .keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        max-width: 280px;
+        margin: 0 auto;
+      }
+      .key {
+        height: 56px;
+        background: var(--surface);
+        border: none;
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        font-size: 22px;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.1s;
+      }
+      .key:active {
+        background: var(--surface2);
+      }
+      .key-empty {
+        background: transparent;
+      }
+      .key-del {
+        background: transparent;
+        font-size: 16px;
+      }
 
-/* Nav tabs */
-.tab-bar {
-  display: flex;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  padding-bottom: max(4px, env(safe-area-inset-bottom));
-  flex-shrink: 0;
-}
-.tab {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 0;
-  background: none;
-  border: none;
-  color: var(--text3);
-  font-size: 10px;
-  font-family: inherit;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.tab.active { color: var(--green); }
-.tab svg { width: 22px; height: 22px; }
+      /* Nav tabs */
+      .tab-bar {
+        display: flex;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding-bottom: max(4px, env(safe-area-inset-bottom));
+        flex-shrink: 0;
+      }
+      .tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 10px 0;
+        background: none;
+        border: none;
+        color: var(--text3);
+        font-size: 10px;
+        font-family: inherit;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .tab.active {
+        color: var(--green);
+      }
+      .tab svg {
+        width: 22px;
+        height: 22px;
+      }
 
-/* Toast */
-.toast {
-  position: fixed;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-20px);
-  background: var(--surface2);
-  border: 1px solid var(--green);
-  color: var(--text);
-  padding: 12px 20px;
-  border-radius: var(--radius);
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0;
-  transition: all 0.3s ease;
-  z-index: 100;
-  white-space: nowrap;
-}
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+      /* Toast */
+      .toast {
+        position: fixed;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        background: var(--surface2);
+        border: 1px solid var(--green);
+        color: var(--text);
+        padding: 12px 20px;
+        border-radius: var(--radius);
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 100;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
 
-/* Add to homescreen modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 50;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.modal-overlay.show {
-  opacity: 1;
-  pointer-events: all;
-}
-.modal-sheet {
-  background: var(--surface);
-  border-radius: 20px 20px 0 0;
-  padding: 28px 24px;
-  padding-bottom: max(28px, env(safe-area-inset-bottom));
-  width: 100%;
-  max-width: 430px;
-  transform: translateY(100%);
-  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-}
-.modal-overlay.show .modal-sheet {
-  transform: translateY(0);
-}
-.modal-handle {
-  width: 36px;
-  height: 4px;
-  background: var(--text3);
-  border-radius: 2px;
-  margin: 0 auto 20px;
-  opacity: 0.4;
-}
+      /* Add to homescreen modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 50;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .modal-overlay.show {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .modal-sheet {
+        background: var(--surface);
+        border-radius: 20px 20px 0 0;
+        padding: 28px 24px;
+        padding-bottom: max(28px, env(safe-area-inset-bottom));
+        width: 100%;
+        max-width: 430px;
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      .modal-overlay.show .modal-sheet {
+        transform: translateY(0);
+      }
+      .modal-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--text3);
+        border-radius: 2px;
+        margin: 0 auto 20px;
+        opacity: 0.4;
+      }
 
-/* Success animation */
-.success-circle {
-  width: 72px; height: 72px;
-  border-radius: 50%;
-  background: var(--green-bg2);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-}
-.success-circle svg {
-  width: 32px; height: 32px;
-  stroke: var(--green);
-  stroke-width: 2.5;
-  fill: none;
-}
-.checkmark-path {
-  stroke-dasharray: 40;
-  stroke-dashoffset: 40;
-  animation: draw 0.5s ease 0.2s forwards;
-}
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
-}
+      /* Success animation */
+      .success-circle {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--green-bg2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+      }
+      .success-circle svg {
+        width: 32px;
+        height: 32px;
+        stroke: var(--green);
+        stroke-width: 2.5;
+        fill: none;
+      }
+      .checkmark-path {
+        stroke-dasharray: 40;
+        stroke-dashoffset: 40;
+        animation: draw 0.5s ease 0.2s forwards;
+      }
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
 
-/* Fade in children */
-.fade-children > * {
-  opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 0.35s ease forwards;
-}
-.fade-children > *:nth-child(1) { animation-delay: 0.05s; }
-.fade-children > *:nth-child(2) { animation-delay: 0.1s; }
-.fade-children > *:nth-child(3) { animation-delay: 0.15s; }
-.fade-children > *:nth-child(4) { animation-delay: 0.2s; }
-.fade-children > *:nth-child(5) { animation-delay: 0.25s; }
-.fade-children > *:nth-child(6) { animation-delay: 0.3s; }
-.fade-children > *:nth-child(7) { animation-delay: 0.35s; }
-.fade-children > *:nth-child(8) { animation-delay: 0.4s; }
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
+      /* Fade in children */
+      .fade-children > * {
+        opacity: 0;
+        transform: translateY(12px);
+        animation: fadeUp 0.35s ease forwards;
+      }
+      .fade-children > *:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .fade-children > *:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .fade-children > *:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .fade-children > *:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .fade-children > *:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+      .fade-children > *:nth-child(6) {
+        animation-delay: 0.3s;
+      }
+      .fade-children > *:nth-child(7) {
+        animation-delay: 0.35s;
+      }
+      .fade-children > *:nth-child(8) {
+        animation-delay: 0.4s;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-/* Pulse dot for live items */
-.pulse-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  animation: pulse 2s ease infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
+      /* Pulse dot for live items */
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: pulse 2s ease infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
 
-/* Profile */
-.avatar {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: var(--green-bg2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; font-weight: 600; color: var(--green);
-  margin: 0 auto 12px;
-}
-.settings-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-}
-.settings-item:last-child { border-bottom: none; }
-.settings-label { font-size: 15px; color: var(--text); }
-.settings-val { font-size: 14px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
-.chevron { color: var(--text3); font-size: 16px; }
+      /* Profile */
+      .avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--green-bg2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--green);
+        margin: 0 auto 12px;
+      }
+      .settings-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+      }
+      .settings-item:last-child {
+        border-bottom: none;
+      }
+      .settings-label {
+        font-size: 15px;
+        color: var(--text);
+      }
+      .settings-val {
+        font-size: 14px;
+        color: var(--text3);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .chevron {
+        color: var(--text3);
+        font-size: 16px;
+      }
 
-/* SMS preview */
-.sms-bubble {
-  padding: 12px 16px;
-  border-radius: 16px;
-  font-size: 14px;
-  line-height: 1.5;
-  max-width: 88%;
-}
-.sms-in {
-  background: var(--surface2);
-  color: var(--text);
-  border-bottom-left-radius: 4px;
-}
+      /* SMS preview */
+      .sms-bubble {
+        padding: 12px 16px;
+        border-radius: 16px;
+        font-size: 14px;
+        line-height: 1.5;
+        max-width: 88%;
+      }
+      .sms-in {
+        background: var(--surface2);
+        color: var(--text);
+        border-bottom-left-radius: 4px;
+      }
 
-/* Empty state */
-.empty-icon {
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  background: var(--surface);
-  display: flex; align-items: center; justify-content: center;
-  margin: 40px auto 16px;
-  border: 1px solid var(--border);
-}
-.empty-icon svg { width: 32px; height: 32px; stroke: var(--text3); fill: none; }
+      /* Empty state */
+      .empty-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--surface);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px auto 16px;
+        border: 1px solid var(--border);
+      }
+      .empty-icon svg {
+        width: 32px;
+        height: 32px;
+        stroke: var(--text3);
+        fill: none;
+      }
 
-/* Search */
-.search-wrap {
-  position: relative;
-  margin-bottom: 20px;
-}
-.search-wrap svg {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 18px; height: 18px;
-  stroke: var(--text3);
-  fill: none;
-}
-.search-wrap .input-field {
-  padding-left: 42px;
-}
+      /* Search */
+      .search-wrap {
+        position: relative;
+        margin-bottom: 20px;
+      }
+      .search-wrap svg {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        stroke: var(--text3);
+        fill: none;
+      }
+      .search-wrap .input-field {
+        padding-left: 42px;
+      }
 
-/* Step dots */
-.steps { display: flex; gap: 6px; justify-content: center; margin-bottom: 28px; }
-.step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--surface2); }
-.step-dot.done { background: var(--green); }
-.step-dot.current { background: var(--green); width: 24px; border-radius: 4px; }
+      /* Step dots */
+      .steps {
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        margin-bottom: 28px;
+      }
+      .step-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--surface2);
+      }
+      .step-dot.done {
+        background: var(--green);
+      }
+      .step-dot.current {
+        background: var(--green);
+        width: 24px;
+        border-radius: 4px;
+      }
 
-/* A2HS instructions */
-.a2hs-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 0;
-}
-.a2hs-num {
-  min-width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--green-bg2);
-  color: var(--green);
-  font-size: 13px;
-  font-weight: 600;
-  display: flex; align-items: center; justify-content: center;
-}
-.a2hs-text { font-size: 14px; color: var(--text2); line-height: 1.5; }
-.a2hs-text strong { color: var(--text); font-weight: 500; }
+      /* A2HS instructions */
+      .a2hs-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 0;
+      }
+      .a2hs-num {
+        min-width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--green-bg2);
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .a2hs-text {
+        font-size: 14px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .a2hs-text strong {
+        color: var(--text);
+        font-weight: 500;
+      }
 
-/* Amount display */
-.amount-display {
-  text-align: center;
-  margin: 32px 0;
-}
-.amount-display .currency { font-size: 28px; color: var(--text2); font-weight: 500; }
-.amount-display .amount { font-size: 56px; font-weight: 600; letter-spacing: -2px; }
-.amount-display .hint { font-size: 13px; color: var(--text3); margin-top: 4px; }
+      /* Amount display */
+      .amount-display {
+        text-align: center;
+        margin: 32px 0;
+      }
+      .amount-display .currency {
+        font-size: 28px;
+        color: var(--text2);
+        font-weight: 500;
+      }
+      .amount-display .amount {
+        font-size: 56px;
+        font-weight: 600;
+        letter-spacing: -2px;
+      }
+      .amount-display .hint {
+        font-size: 13px;
+        color: var(--text3);
+        margin-top: 4px;
+      }
 
-/* Scrollbar hide */
-.screen::-webkit-scrollbar { display: none; }
-.screen { scrollbar-width: none; }
-.screen-body::-webkit-scrollbar { display: none; }
-.screen-body { scrollbar-width: none; }
+      /* Scrollbar hide */
+      .screen::-webkit-scrollbar {
+        display: none;
+      }
+      .screen {
+        scrollbar-width: none;
+      }
+      .screen-body::-webkit-scrollbar {
+        display: none;
+      }
+      .screen-body {
+        scrollbar-width: none;
+      }
 
-/* Back button */
-.back-btn {
-  background: none;
-  border: none;
-  color: var(--text2);
-  font-size: 14px;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 4px 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.back-btn svg { width: 18px; height: 18px; stroke: var(--text2); fill: none; }
+      /* Back button */
+      .back-btn {
+        background: none;
+        border: none;
+        color: var(--text2);
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
+        padding: 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .back-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--text2);
+        fill: none;
+      }
 
-.section-label {
-  font-size: 12px;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-}
+      .section-label {
+        font-size: 12px;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+      }
 
-.remind-btn {
-  background: none;
-  border: none;
-  color: var(--green);
-  font-size: 13px;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 4px 0;
-}
-</style>
-</head>
-<body>
-<div class="app" id="app">
-
-  <!-- SCREEN: Landing -->
-  <div class="screen active" id="s-landing">
-    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 28px;text-align:center">
-      <div class="fade-children">
-        <div style="margin-bottom:48px">
-          <div style="font-size:44px;font-weight:600;letter-spacing:-2px;color:var(--text)">t<span style="color:var(--green)">o</span>la</div>
-        </div>
-        <h1 style="font-size:28px;margin-bottom:8px">Stop chasing<br>payments.</h1>
-        <p style="font-size:15px;color:var(--text2);margin-bottom:48px;line-height:1.5">Text an invoice. They tap a link. Money hits your account.</p>
-        <button class="btn btn-primary" onclick="go('s-signup')">Get started — it's free</button>
-        <p style="font-size:12px;color:var(--text3);margin-top:16px">No app download. No subscription. No catch.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN: Signup -->
-  <div class="screen" id="s-signup">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-landing')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body fade-children">
-      <div class="steps">
-        <div class="step-dot current"></div>
-        <div class="step-dot"></div>
-        <div class="step-dot"></div>
-      </div>
-      <h1>Set up your business</h1>
-      <p class="subtitle" style="margin-bottom:28px">Three fields. 30 seconds.</p>
-      <div class="input-group">
-        <label>Your name</label>
-        <input class="input-field" id="inp-name" placeholder="Jake Williams" value="Jake Williams">
-      </div>
-      <div class="input-group">
-        <label>Business name</label>
-        <input class="input-field" id="inp-biz" placeholder="Jake's Lawn Care" value="Jake's Lawn Care">
-      </div>
-      <div class="input-group">
-        <label>Phone number</label>
-        <input class="input-field" id="inp-phone" type="tel" placeholder="(512) 555-0147" value="(512) 555-0147">
-      </div>
-    </div>
-    <div class="bottom-bar">
-      <button class="btn btn-primary" onclick="go('s-verify')">Continue</button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Verify -->
-  <div class="screen" id="s-verify">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-signup')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body" style="text-align:center">
-      <div class="steps">
-        <div class="step-dot done"></div>
-        <div class="step-dot current"></div>
-        <div class="step-dot"></div>
-      </div>
-      <h1>Verify your number</h1>
-      <p class="subtitle" style="margin-bottom:8px">Code sent to (512) 555-0147</p>
-      <div class="pin-row" id="pin-row">
-        <div class="pin-box" data-i="0"></div>
-        <div class="pin-box" data-i="1"></div>
-        <div class="pin-box" data-i="2"></div>
-        <div class="pin-box" data-i="3"></div>
-        <div class="pin-box" data-i="4"></div>
-        <div class="pin-box" data-i="5"></div>
-      </div>
-      <div class="keypad" id="keypad"></div>
-      <button class="btn-ghost" style="margin-top:16px">Resend code</button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Add first customer -->
-  <div class="screen" id="s-first-customer">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-verify')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body fade-children">
-      <div class="steps">
-        <div class="step-dot done"></div>
-        <div class="step-dot done"></div>
-        <div class="step-dot current"></div>
-      </div>
-      <h1>Your first invoice is 60 seconds away</h1>
-      <p class="subtitle" style="margin-bottom:28px">Who'd you mow for last?</p>
-      <div class="input-group">
-        <label>Their name</label>
-        <input class="input-field" placeholder="John Martinez" value="John Martinez">
-      </div>
-      <div class="input-group">
-        <label>Their phone</label>
-        <input class="input-field" type="tel" placeholder="(512) 555-1234" value="(512) 555-1234">
-      </div>
-      <div class="input-group">
-        <label>Address</label>
-        <input class="input-field" placeholder="123 Main St, Leander" value="123 Main St, Leander">
-      </div>
-      <div class="input-group">
-        <label>What you charge them</label>
-        <input class="input-field" type="text" placeholder="$50" value="$50">
-      </div>
-    </div>
-    <div class="bottom-bar" style="flex-direction:column;gap:8px">
-      <button class="btn btn-primary" onclick="go('s-dashboard')">Save & continue</button>
-      <button class="btn btn-ghost" onclick="go('s-dashboard')">Skip for now</button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Dashboard -->
-  <div class="screen" id="s-dashboard">
-    <div class="status-bar">
-      <div></div>
-      <div class="logo">t<span>o</span>la</div>
-      <div></div>
-    </div>
-    <div class="screen-body" id="dashboard-body">
-      <!-- Filled dynamically -->
-    </div>
-    <div class="bottom-bar" id="dashboard-bottom">
-      <button class="btn btn-primary" style="flex:1.2" onclick="go('s-pick-customer')">
-        <svg viewBox="0 0 24 24" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;stroke:#fff;fill:none;stroke-width:2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
-        Send invoice
-      </button>
-      <button class="btn btn-secondary" style="flex:0.8" onclick="go('s-add-customer')">+ Add client</button>
-    </div>
-    <div class="tab-bar" id="main-tabs">
-      <button class="tab active" onclick="switchTab(this,'s-dashboard')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-        Home
-      </button>
-      <button class="tab" onclick="switchTab(this,'s-history')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        History
-      </button>
-      <button class="tab" onclick="switchTab(this,'s-profile')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Profile
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Pick Customer -->
-  <div class="screen" id="s-pick-customer">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-dashboard')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body fade-children">
-      <h2>Invoice who?</h2>
-      <p class="subtitle" style="margin-bottom:20px">Search by name or address</p>
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input class="input-field" id="customer-search" placeholder="Name or address..." oninput="filterCustomers(this.value)">
-      </div>
-      <div class="section-label">Recent</div>
-      <div id="customer-list"></div>
-    </div>
-    <div class="bottom-bar">
-      <button class="btn btn-primary" id="btn-next-amount" disabled onclick="go('s-amount')">Next</button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Amount -->
-  <div class="screen" id="s-amount">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-pick-customer')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body" style="text-align:center">
-      <h2 id="amount-customer-name">John Martinez</h2>
-      <p class="subtitle" id="amount-customer-addr">123 Main St, Leander</p>
-      <div class="amount-display">
-        <span class="currency">$</span><span class="amount" id="amount-val">50</span>
-        <div class="hint">Their usual rate — tap to adjust</div>
-      </div>
-      <div class="keypad" id="amount-keypad"></div>
-    </div>
-    <div class="bottom-bar">
-      <button class="btn btn-primary" id="btn-send-invoice" onclick="sendInvoice()">
-        Send invoice — $<span id="send-amount">50</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Invoice Sent -->
-  <div class="screen" id="s-invoice-sent">
-    <div class="status-bar">
-      <div></div>
-      <div class="logo">t<span>o</span>la</div>
-      <div></div>
-    </div>
-    <div class="screen-body" style="text-align:center;padding-top:48px">
-      <div class="success-circle">
-        <svg viewBox="0 0 32 32"><path class="checkmark-path" d="M8 16l6 6 10-12" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <h1 style="font-size:22px">Boom — invoice sent</h1>
-      <p class="subtitle" id="sent-subtitle">John just got a text. You'll know when they pay.</p>
-      <div style="text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:24px 0">
-        <p style="font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">What they see</p>
-        <div class="sms-bubble sms-in" style="max-width:100%" id="sms-preview"></div>
-      </div>
-      <button class="btn btn-primary" onclick="afterInvoiceSent()" style="margin-top:8px">Back to dashboard</button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Add Customer (from dashboard) -->
-  <div class="screen" id="s-add-customer">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-dashboard')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body fade-children">
-      <h1>New customer</h1>
-      <p class="subtitle" style="margin-bottom:28px"></p>
-      <div class="input-group">
-        <label>Name</label>
-        <input class="input-field" id="new-cust-name" placeholder="Customer name">
-      </div>
-      <div class="input-group">
-        <label>Phone</label>
-        <input class="input-field" id="new-cust-phone" type="tel" placeholder="(512) 555-0000">
-      </div>
-      <div class="input-group">
-        <label>Address</label>
-        <input class="input-field" id="new-cust-addr" placeholder="123 Main St, Leander">
-      </div>
-      <div class="input-group">
-        <label>Usual price</label>
-        <input class="input-field" id="new-cust-price" type="text" placeholder="$50">
-      </div>
-    </div>
-    <div class="bottom-bar">
-      <button class="btn btn-primary" onclick="addNewCustomer()">Add customer</button>
-    </div>
-  </div>
-
-  <!-- SCREEN: History -->
-  <div class="screen" id="s-history">
-    <div class="status-bar">
-      <div></div>
-      <div class="logo">t<span>o</span>la</div>
-      <div></div>
-    </div>
-    <div class="screen-body">
-      <h2 style="margin-bottom:20px">Payment history</h2>
-      <div id="history-list"></div>
-    </div>
-    <div class="tab-bar" id="history-tabs">
-      <button class="tab" onclick="switchTab(this,'s-dashboard')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-        Home
-      </button>
-      <button class="tab active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        History
-      </button>
-      <button class="tab" onclick="switchTab(this,'s-profile')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Profile
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Profile -->
-  <div class="screen" id="s-profile">
-    <div class="status-bar">
-      <div></div>
-      <div class="logo">t<span>o</span>la</div>
-      <div></div>
-    </div>
-    <div class="screen-body">
-      <div style="text-align:center;margin-bottom:28px;padding-top:12px">
-        <div class="avatar">JW</div>
-        <h2>Jake Williams</h2>
-        <p style="font-size:14px;color:var(--text2)">Jake's Lawn Care</p>
-      </div>
-
-      <div class="section-label">Account</div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0 16px;margin-bottom:24px">
-        <div class="settings-item">
-          <span class="settings-label">Phone</span>
-          <span class="settings-val">(512) 555-0147 <span class="chevron">›</span></span>
-        </div>
-        <div class="settings-item">
-          <span class="settings-label">Business name</span>
-          <span class="settings-val">Jake's Lawn Care <span class="chevron">›</span></span>
-        </div>
-        <div class="settings-item" onclick="go('s-connect-bank')" id="bank-setting">
-          <span class="settings-label">Bank / payouts</span>
-          <span class="settings-val" id="bank-status-text">Not connected ⚠️ <span class="chevron">›</span></span>
+      .remind-btn {
+        background: none;
+        border: none;
+        color: var(--green);
+        font-size: 13px;
+        font-family: inherit;
+        cursor: pointer;
+        padding: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <!-- SCREEN: Landing -->
+      <div class="screen active" id="s-landing">
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 28px;
+            text-align: center;
+          "
+        >
+          <div class="fade-children">
+            <div style="margin-bottom: 48px">
+              <div
+                style="
+                  font-size: 44px;
+                  font-weight: 600;
+                  letter-spacing: -2px;
+                  color: var(--text);
+                "
+              >
+                t<span style="color: var(--green)">o</span>la
+              </div>
+            </div>
+            <h1 style="font-size: 28px; margin-bottom: 8px">
+              Stop chasing<br />payments.
+            </h1>
+            <p
+              style="
+                font-size: 15px;
+                color: var(--text2);
+                margin-bottom: 48px;
+                line-height: 1.5;
+              "
+            >
+              Text an invoice. They tap a link. Money hits your account.
+            </p>
+            <button class="btn btn-primary" onclick="go('s-signup')">
+              Get started<br><span style="font-size: 13px; font-weight: 400; opacity: 0.85">money hits your account</span>
+            </button>
+            <p style="font-size: 12px; color: var(--text3); margin-top: 16px">
+              No app download. No subscription. No catch.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="section-label">Preferences</div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0 16px;margin-bottom:24px">
-        <div class="settings-item">
-          <span class="settings-label">Invoice message</span>
-          <span class="settings-val">Default <span class="chevron">›</span></span>
+      <!-- SCREEN: Signup -->
+      <div class="screen" id="s-signup">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-landing')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
         </div>
-        <div class="settings-item">
-          <span class="settings-label">Payment reminders</span>
-          <span class="settings-val">After 3 days <span class="chevron">›</span></span>
+        <div class="screen-body fade-children">
+          <div class="steps">
+            <div class="step-dot current"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+          <h1>Set up your business</h1>
+          <p class="subtitle" style="margin-bottom: 28px">
+            Three fields. 30 seconds.
+          </p>
+          <div class="input-group">
+            <label>Your name</label>
+            <input
+              class="input-field"
+              id="inp-name"
+              placeholder="Jake Williams"
+              value="Jake Williams"
+            />
+          </div>
+          <div class="input-group">
+            <label>Business name</label>
+            <input
+              class="input-field"
+              id="inp-biz"
+              placeholder="Jake's Lawn Care"
+              value="Jake's Lawn Care"
+            />
+          </div>
+          <div class="input-group">
+            <label>Phone number</label>
+            <input
+              class="input-field"
+              id="inp-phone"
+              type="tel"
+              placeholder="(512) 555-0147"
+              value="(512) 555-0147"
+            />
+          </div>
         </div>
-        <div class="settings-item">
-          <span class="settings-label">Recurring invoices</span>
-          <span class="settings-val">Off <span class="chevron">›</span></span>
+        <div class="bottom-bar">
+          <button class="btn btn-primary" onclick="go('s-verify')">
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN: Verify -->
+      <div class="screen" id="s-verify">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-signup')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
+        </div>
+        <div class="screen-body" style="text-align: center">
+          <div class="steps">
+            <div class="step-dot done"></div>
+            <div class="step-dot current"></div>
+            <div class="step-dot"></div>
+          </div>
+          <h1>Verify your number</h1>
+          <p class="subtitle" style="margin-bottom: 8px">
+            Code sent to (512) 555-0147
+          </p>
+          <div class="pin-row" id="pin-row">
+            <div class="pin-box" data-i="0"></div>
+            <div class="pin-box" data-i="1"></div>
+            <div class="pin-box" data-i="2"></div>
+            <div class="pin-box" data-i="3"></div>
+            <div class="pin-box" data-i="4"></div>
+            <div class="pin-box" data-i="5"></div>
+          </div>
+          <div class="keypad" id="keypad"></div>
+          <button class="btn-ghost" style="margin-top: 16px">
+            Resend code
+          </button>
         </div>
       </div>
 
-      <div class="section-label">About</div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:0 16px;margin-bottom:24px">
-        <div class="settings-item">
-          <span class="settings-label">Help & support</span>
-          <span class="settings-val"><span class="chevron">›</span></span>
+      <!-- SCREEN: Add first customer -->
+      <div class="screen" id="s-first-customer">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-verify')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
         </div>
-        <div class="settings-item">
-          <span class="settings-label">Rate Tola</span>
-          <span class="settings-val"><span class="chevron">›</span></span>
+        <div class="screen-body fade-children">
+          <div class="steps">
+            <div class="step-dot done"></div>
+            <div class="step-dot done"></div>
+            <div class="step-dot current"></div>
+          </div>
+          <h1>Your first invoice is 60 seconds away</h1>
+          <p class="subtitle" style="margin-bottom: 28px">
+            Who'd you mow for last?
+          </p>
+          <div class="input-group">
+            <label>Their name</label>
+            <input
+              class="input-field"
+              placeholder="John Martinez"
+              value="John Martinez"
+            />
+          </div>
+          <div class="input-group">
+            <label>Their phone</label>
+            <input
+              class="input-field"
+              type="tel"
+              placeholder="(512) 555-1234"
+              value="(512) 555-1234"
+            />
+          </div>
+          <div class="input-group">
+            <label>Address</label>
+            <input
+              class="input-field"
+              placeholder="123 Main St, Leander"
+              value="123 Main St, Leander"
+            />
+          </div>
+          <div class="input-group">
+            <label>What you charge them</label>
+            <input
+              class="input-field"
+              type="text"
+              placeholder="$50"
+              value="$50"
+            />
+          </div>
         </div>
-        <div class="settings-item">
-          <span class="settings-label">Version</span>
-          <span class="settings-val">0.1.0</span>
+        <div class="bottom-bar" style="flex-direction: column; gap: 8px">
+          <button class="btn btn-primary" onclick="go('s-dashboard')">
+            Save & continue
+          </button>
+          <button class="btn btn-ghost" onclick="go('s-dashboard')">
+            Skip for now
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN: Dashboard -->
+      <div class="screen" id="s-dashboard">
+        <div class="status-bar">
+          <div></div>
+          <div class="logo">t<span>o</span>la</div>
+          <div></div>
+        </div>
+        <div class="screen-body" id="dashboard-body">
+          <!-- Filled dynamically -->
+        </div>
+        <div class="bottom-bar" id="dashboard-bottom">
+          <button
+            class="btn btn-primary"
+            style="flex: 1.2"
+            onclick="go('s-pick-customer')"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              style="
+                width: 18px;
+                height: 18px;
+                vertical-align: middle;
+                margin-right: 6px;
+                stroke: #fff;
+                fill: none;
+                stroke-width: 2;
+              "
+            >
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+            </svg>
+            Send invoice
+          </button>
+          <button
+            class="btn btn-secondary"
+            style="flex: 0.8"
+            onclick="go('s-add-customer')"
+          >
+            + Add client
+          </button>
+        </div>
+        <div class="tab-bar" id="main-tabs">
+          <button class="tab active" onclick="switchTab(this, 's-dashboard')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+            Home
+          </button>
+          <button class="tab" onclick="switchTab(this, 's-history')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            History
+          </button>
+          <button class="tab" onclick="switchTab(this, 's-profile')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Profile
+          </button>
         </div>
       </div>
 
-      <button class="btn btn-ghost" style="color:var(--danger);margin-bottom:40px">Sign out</button>
-    </div>
-    <div class="tab-bar" id="profile-tabs">
-      <button class="tab" onclick="switchTab(this,'s-dashboard')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-        Home
-      </button>
-      <button class="tab" onclick="switchTab(this,'s-history')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        History
-      </button>
-      <button class="tab active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Profile
-      </button>
-    </div>
-  </div>
-
-  <!-- SCREEN: Connect Bank -->
-  <div class="screen" id="s-connect-bank">
-    <div class="status-bar">
-      <button class="back-btn" onclick="go('s-profile')">
-        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="logo">t<span>o</span>la</div>
-      <div style="width:24px"></div>
-    </div>
-    <div class="screen-body fade-children">
-      <div style="text-align:center;margin-bottom:24px">
-        <div class="success-circle" style="background:var(--green-bg)">
-          <svg viewBox="0 0 32 32" style="width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2"><rect x="4" y="8" width="24" height="16" rx="2"/><path d="M4 14h24"/></svg>
+      <!-- SCREEN: Pick Customer -->
+      <div class="screen" id="s-pick-customer">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-dashboard')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
         </div>
-        <h2>Connect your bank</h2>
-        <p class="subtitle">Your money goes straight to your bank. Secure & instant.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px">
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px">🔒 Secured by Stripe — used by millions of businesses</p>
-        <div class="input-group">
-          <label>Legal name</label>
-          <input class="input-field" value="Jake Williams">
+        <div class="screen-body fade-children">
+          <h2>Invoice who?</h2>
+          <p class="subtitle" style="margin-bottom: 20px">
+            Search by name or address
+          </p>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+            <input
+              class="input-field"
+              id="customer-search"
+              placeholder="Name or address..."
+              oninput="filterCustomers(this.value)"
+            />
+          </div>
+          <div class="section-label">Recent</div>
+          <div id="customer-list"></div>
         </div>
-        <div class="input-group">
-          <label>Date of birth</label>
-          <input class="input-field" value="03/15/1992">
-        </div>
-        <div class="input-group">
-          <label>Last 4 of SSN</label>
-          <input class="input-field" type="password" value="1234" maxlength="4">
-        </div>
-        <div class="section-label" style="margin-top:16px">Payout method</div>
-        <div style="display:flex;gap:10px;margin-bottom:16px">
-          <div style="flex:1;padding:14px;border:2px solid var(--green);border-radius:var(--radius-sm);text-align:center;font-size:14px;font-weight:500;background:var(--green-bg)">Debit card</div>
-          <div style="flex:1;padding:14px;border:1px solid var(--border);border-radius:var(--radius-sm);text-align:center;font-size:14px;color:var(--text2)">Bank account</div>
-        </div>
-        <div class="input-group">
-          <label>Card number</label>
-          <input class="input-field" placeholder="4242 4242 4242 4242">
+        <div class="bottom-bar">
+          <button
+            class="btn btn-primary"
+            id="btn-next-amount"
+            disabled
+            onclick="go('s-amount')"
+          >
+            Next
+          </button>
         </div>
       </div>
-    </div>
-    <div class="bottom-bar">
-      <button class="btn btn-primary" onclick="connectBank()">Connect & start getting paid</button>
-    </div>
-  </div>
 
-  <!-- SCREEN: Payment Received -->
-  <div class="screen" id="s-payment-received">
-    <div class="status-bar">
-      <div></div>
-      <div class="logo">t<span>o</span>la</div>
-      <div></div>
-    </div>
-    <div class="screen-body" style="text-align:center;padding-top:48px">
-      <div class="success-circle" style="background:var(--green-bg2)">
-        <svg viewBox="0 0 32 32" style="width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2"><path d="M16 4v24M10 10c0-2 2-4 6-4s6 2 6 4-2 3-6 4-6 2-6 4 2 4 6 4 6-2 6-4" stroke-linecap="round"/></svg>
+      <!-- SCREEN: Amount -->
+      <div class="screen" id="s-amount">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-pick-customer')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
+        </div>
+        <div class="screen-body" style="text-align: center">
+          <h2 id="amount-customer-name">John Martinez</h2>
+          <p class="subtitle" id="amount-customer-addr">123 Main St, Leander</p>
+          <div class="amount-display">
+            <span class="currency">$</span
+            ><span class="amount" id="amount-val">50</span>
+            <div class="hint">Their usual rate — tap to adjust</div>
+          </div>
+          <div class="keypad" id="amount-keypad"></div>
+        </div>
+        <div class="bottom-bar">
+          <button
+            class="btn btn-primary"
+            id="btn-send-invoice"
+            onclick="sendInvoice()"
+          >
+            Send invoice — $<span id="send-amount">50</span>
+          </button>
+        </div>
       </div>
-      <h1 style="font-size:22px" id="payment-title">John just paid $50</h1>
-      <p class="subtitle" id="payment-subtitle">This money is yours — connect your bank to get it</p>
-      <div style="background:var(--green-bg);border-radius:var(--radius);padding:18px;margin:24px 0;text-align:left">
-        <p style="font-size:14px;color:var(--green);line-height:1.5" id="payment-cta"><strong>$50.00</strong> is waiting in your account. The longer you wait, the longer your money sits unclaimed.</p>
+
+      <!-- SCREEN: Invoice Sent -->
+      <div class="screen" id="s-invoice-sent">
+        <div class="status-bar">
+          <div></div>
+          <div class="logo">t<span>o</span>la</div>
+          <div></div>
+        </div>
+        <div class="screen-body" style="text-align: center; padding-top: 48px">
+          <div class="success-circle">
+            <svg viewBox="0 0 32 32">
+              <path
+                class="checkmark-path"
+                d="M8 16l6 6 10-12"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <h1 style="font-size: 22px">Boom — invoice sent</h1>
+          <p class="subtitle" id="sent-subtitle">
+            John just got a text. You'll know when they pay.
+          </p>
+          <div
+            style="
+              text-align: left;
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: var(--radius);
+              padding: 16px;
+              margin: 24px 0;
+            "
+          >
+            <p
+              style="
+                font-size: 11px;
+                color: var(--text3);
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+              "
+            >
+              What they see
+            </p>
+            <div
+              class="sms-bubble sms-in"
+              style="max-width: 100%"
+              id="sms-preview"
+            ></div>
+          </div>
+          <button
+            class="btn btn-primary"
+            onclick="afterInvoiceSent()"
+            style="margin-top: 8px"
+          >
+            Back to dashboard
+          </button>
+        </div>
       </div>
-      <button class="btn btn-primary" id="payment-btn" onclick="go('s-connect-bank')">Connect bank — takes 2 min</button>
-      <button class="btn btn-ghost" onclick="go('s-dashboard')" style="margin-top:4px">Remind me later</button>
-    </div>
-  </div>
 
-</div>
-
-<!-- Add to Home Screen Modal -->
-<div class="modal-overlay" id="a2hs-modal">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div style="text-align:center;margin-bottom:20px">
-      <div style="width:56px;height:56px;border-radius:14px;background:var(--green-bg2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
-        <span style="font-size:24px;font-weight:600;color:var(--green)">t<span style="color:var(--green)">o</span></span>
+      <!-- SCREEN: Add Customer (from dashboard) -->
+      <div class="screen" id="s-add-customer">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-dashboard')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
+        </div>
+        <div class="screen-body fade-children">
+          <h1>New customer</h1>
+          <p class="subtitle" style="margin-bottom: 28px"></p>
+          <div class="input-group">
+            <label>Name</label>
+            <input
+              class="input-field"
+              id="new-cust-name"
+              placeholder="Customer name"
+            />
+          </div>
+          <div class="input-group">
+            <label>Phone</label>
+            <input
+              class="input-field"
+              id="new-cust-phone"
+              type="tel"
+              placeholder="(512) 555-0000"
+            />
+          </div>
+          <div class="input-group">
+            <label>Address</label>
+            <input
+              class="input-field"
+              id="new-cust-addr"
+              placeholder="123 Main St, Leander"
+            />
+          </div>
+          <div class="input-group">
+            <label>Usual price</label>
+            <input
+              class="input-field"
+              id="new-cust-price"
+              type="text"
+              placeholder="$50"
+            />
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn btn-primary" onclick="addNewCustomer()">
+            Add customer
+          </button>
+        </div>
       </div>
-      <h2>Keep Tola one tap away</h2>
-      <p style="font-size:14px;color:var(--text2);margin-top:6px">No app store. No download. Just your invoices, ready to go.</p>
+
+      <!-- SCREEN: History -->
+      <div class="screen" id="s-history">
+        <div class="status-bar">
+          <div></div>
+          <div class="logo">t<span>o</span>la</div>
+          <div></div>
+        </div>
+        <div class="screen-body">
+          <h2 style="margin-bottom: 20px">Payment history</h2>
+          <div id="history-list"></div>
+        </div>
+        <div class="tab-bar" id="history-tabs">
+          <button class="tab" onclick="switchTab(this, 's-dashboard')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+            Home
+          </button>
+          <button class="tab active">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            History
+          </button>
+          <button class="tab" onclick="switchTab(this, 's-profile')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN: Profile -->
+      <div class="screen" id="s-profile">
+        <div class="status-bar">
+          <div></div>
+          <div class="logo">t<span>o</span>la</div>
+          <div></div>
+        </div>
+        <div class="screen-body">
+          <div
+            style="text-align: center; margin-bottom: 28px; padding-top: 12px"
+          >
+            <div class="avatar">JW</div>
+            <h2>Jake Williams</h2>
+            <p style="font-size: 14px; color: var(--text2)">Jake's Lawn Care</p>
+          </div>
+
+          <div class="section-label">Account</div>
+          <div
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: var(--radius);
+              padding: 0 16px;
+              margin-bottom: 24px;
+            "
+          >
+            <div class="settings-item">
+              <span class="settings-label">Phone</span>
+              <span class="settings-val"
+                >(512) 555-0147 <span class="chevron">›</span></span
+              >
+            </div>
+            <div class="settings-item">
+              <span class="settings-label">Business name</span>
+              <span class="settings-val"
+                >Jake's Lawn Care <span class="chevron">›</span></span
+              >
+            </div>
+            <div
+              class="settings-item"
+              onclick="go('s-connect-bank')"
+              id="bank-setting"
+            >
+              <span class="settings-label">Bank / payouts</span>
+              <span class="settings-val" id="bank-status-text"
+                >Not connected ⚠️ <span class="chevron">›</span></span
+              >
+            </div>
+          </div>
+
+          <div class="section-label">Preferences</div>
+          <div
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: var(--radius);
+              padding: 0 16px;
+              margin-bottom: 24px;
+            "
+          >
+            <div class="settings-item">
+              <span class="settings-label">Invoice message</span>
+              <span class="settings-val"
+                >Default <span class="chevron">›</span></span
+              >
+            </div>
+            <div class="settings-item">
+              <span class="settings-label">Payment reminders</span>
+              <span class="settings-val"
+                >After 3 days <span class="chevron">›</span></span
+              >
+            </div>
+            <div class="settings-item">
+              <span class="settings-label">Recurring invoices</span>
+              <span class="settings-val"
+                >Off <span class="chevron">›</span></span
+              >
+            </div>
+          </div>
+
+          <div class="section-label">About</div>
+          <div
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: var(--radius);
+              padding: 0 16px;
+              margin-bottom: 24px;
+            "
+          >
+            <div class="settings-item">
+              <span class="settings-label">Help & support</span>
+              <span class="settings-val"><span class="chevron">›</span></span>
+            </div>
+            <div class="settings-item">
+              <span class="settings-label">Rate Tola</span>
+              <span class="settings-val"><span class="chevron">›</span></span>
+            </div>
+            <div class="settings-item">
+              <span class="settings-label">Version</span>
+              <span class="settings-val">0.1.0</span>
+            </div>
+          </div>
+
+          <button
+            class="btn btn-ghost"
+            style="color: var(--danger); margin-bottom: 40px"
+          >
+            Sign out
+          </button>
+        </div>
+        <div class="tab-bar" id="profile-tabs">
+          <button class="tab" onclick="switchTab(this, 's-dashboard')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+            Home
+          </button>
+          <button class="tab" onclick="switchTab(this, 's-history')">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            History
+          </button>
+          <button class="tab active">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN: Connect Bank -->
+      <div class="screen" id="s-connect-bank">
+        <div class="status-bar">
+          <button class="back-btn" onclick="go('s-profile')">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="logo">t<span>o</span>la</div>
+          <div style="width: 24px"></div>
+        </div>
+        <div class="screen-body fade-children">
+          <div style="text-align: center; margin-bottom: 24px">
+            <div class="success-circle" style="background: var(--green-bg)">
+              <svg
+                viewBox="0 0 32 32"
+                style="
+                  width: 28px;
+                  height: 28px;
+                  stroke: var(--green);
+                  fill: none;
+                  stroke-width: 2;
+                "
+              >
+                <rect x="4" y="8" width="24" height="16" rx="2" />
+                <path d="M4 14h24" />
+              </svg>
+            </div>
+            <h2>Connect your bank</h2>
+            <p class="subtitle">
+              Your money goes straight to your bank. Secure & instant.
+            </p>
+          </div>
+          <div
+            style="
+              background: var(--surface);
+              border: 1px solid var(--border);
+              border-radius: var(--radius);
+              padding: 20px;
+              margin-bottom: 16px;
+            "
+          >
+            <p
+              style="font-size: 12px; color: var(--text3); margin-bottom: 12px"
+            >
+              🔒 Secured by Stripe — used by millions of businesses
+            </p>
+            <div class="input-group">
+              <label>Legal name</label>
+              <input class="input-field" value="Jake Williams" />
+            </div>
+            <div class="input-group">
+              <label>Date of birth</label>
+              <input class="input-field" value="03/15/1992" />
+            </div>
+            <div class="input-group">
+              <label>Last 4 of SSN</label>
+              <input
+                class="input-field"
+                type="password"
+                value="1234"
+                maxlength="4"
+              />
+            </div>
+            <div class="section-label" style="margin-top: 16px">
+              Payout method
+            </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 16px">
+              <div
+                style="
+                  flex: 1;
+                  padding: 14px;
+                  border: 2px solid var(--green);
+                  border-radius: var(--radius-sm);
+                  text-align: center;
+                  font-size: 14px;
+                  font-weight: 500;
+                  background: var(--green-bg);
+                "
+              >
+                Debit card
+              </div>
+              <div
+                style="
+                  flex: 1;
+                  padding: 14px;
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-sm);
+                  text-align: center;
+                  font-size: 14px;
+                  color: var(--text2);
+                "
+              >
+                Bank account
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Card number</label>
+              <input class="input-field" placeholder="4242 4242 4242 4242" />
+            </div>
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn btn-primary" onclick="connectBank()">
+            Connect & start getting paid
+          </button>
+        </div>
+      </div>
+
+      <!-- SCREEN: Payment Received -->
+      <div class="screen" id="s-payment-received">
+        <div class="status-bar">
+          <div></div>
+          <div class="logo">t<span>o</span>la</div>
+          <div></div>
+        </div>
+        <div class="screen-body" style="text-align: center; padding-top: 48px">
+          <div class="success-circle" style="background: var(--green-bg2)">
+            <svg
+              viewBox="0 0 32 32"
+              style="
+                width: 28px;
+                height: 28px;
+                stroke: var(--green);
+                fill: none;
+                stroke-width: 2;
+              "
+            >
+              <path
+                d="M16 4v24M10 10c0-2 2-4 6-4s6 2 6 4-2 3-6 4-6 2-6 4 2 4 6 4 6-2 6-4"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <h1 style="font-size: 22px" id="payment-title">John just paid $50</h1>
+          <p class="subtitle" id="payment-subtitle">
+            This money is yours — connect your bank to get it
+          </p>
+          <div
+            style="
+              background: var(--green-bg);
+              border-radius: var(--radius);
+              padding: 18px;
+              margin: 24px 0;
+              text-align: left;
+            "
+          >
+            <p
+              style="font-size: 14px; color: var(--green); line-height: 1.5"
+              id="payment-cta"
+            >
+              <strong>$50.00</strong> is waiting in your account. The longer you
+              wait, the longer your money sits unclaimed.
+            </p>
+          </div>
+          <button
+            class="btn btn-primary"
+            id="payment-btn"
+            onclick="go('s-connect-bank')"
+          >
+            Connect bank — takes 2 min
+          </button>
+          <button
+            class="btn btn-ghost"
+            onclick="go('s-dashboard')"
+            style="margin-top: 4px"
+          >
+            Remind me later
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="a2hs-step">
-      <div class="a2hs-num">1</div>
-      <div class="a2hs-text">Tap the <strong>share button</strong> at the bottom of your browser (the square with an arrow)</div>
+
+    <!-- Add to Home Screen Modal -->
+    <div class="modal-overlay" id="a2hs-modal">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div style="text-align: center; margin-bottom: 20px">
+          <div
+            style="
+              width: 56px;
+              height: 56px;
+              border-radius: 14px;
+              background: var(--green-bg2);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto 12px;
+            "
+          >
+            <span style="font-size: 24px; font-weight: 600; color: var(--green)"
+              >t<span style="color: var(--green)">o</span></span
+            >
+          </div>
+          <h2>Keep Tola one tap away</h2>
+          <p style="font-size: 14px; color: var(--text2); margin-top: 6px">
+            No app store. No download. Just your invoices, ready to go.
+          </p>
+        </div>
+        <div class="a2hs-step">
+          <div class="a2hs-num">1</div>
+          <div class="a2hs-text">
+            Tap the <strong>share button</strong> at the bottom of your browser
+            (the square with an arrow)
+          </div>
+        </div>
+        <div class="a2hs-step">
+          <div class="a2hs-num">2</div>
+          <div class="a2hs-text">
+            Scroll down and tap <strong>"Add to Home Screen"</strong>
+          </div>
+        </div>
+        <div class="a2hs-step">
+          <div class="a2hs-num">3</div>
+          <div class="a2hs-text">Tap <strong>"Add"</strong> — that's it</div>
+        </div>
+        <button
+          class="btn btn-primary"
+          style="margin-top: 20px"
+          onclick="dismissA2HS()"
+        >
+          Show me how
+        </button>
+        <button class="btn btn-ghost" onclick="dismissA2HS()">
+          Maybe later
+        </button>
+      </div>
     </div>
-    <div class="a2hs-step">
-      <div class="a2hs-num">2</div>
-      <div class="a2hs-text">Scroll down and tap <strong>"Add to Home Screen"</strong></div>
-    </div>
-    <div class="a2hs-step">
-      <div class="a2hs-num">3</div>
-      <div class="a2hs-text">Tap <strong>"Add"</strong> — that's it</div>
-    </div>
-    <button class="btn btn-primary" style="margin-top:20px" onclick="dismissA2HS()">Show me how</button>
-    <button class="btn btn-ghost" onclick="dismissA2HS()">Maybe later</button>
-  </div>
-</div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
-<script>
-// State
-let state = {
-  currentScreen: 's-landing',
-  customers: [
-    { id: 1, name: 'John Martinez', phone: '(512) 555-1234', address: '123 Main St, Leander', price: 50, lastInvoice: null },
-    { id: 2, name: 'Sarah Kim', phone: '(512) 555-5678', address: '456 Oak Ave, Cedar Park', price: 65, lastInvoice: null },
-    { id: 3, name: 'Mike Rodriguez', phone: '(512) 555-9012', address: '789 Elm Dr, Georgetown', price: 70, lastInvoice: null },
-  ],
-  invoices: [],
-  selectedCustomer: null,
-  currentAmount: '',
-  bankConnected: false,
-  invoiceCount: 0,
-  a2hsShown: false,
-  pin: '',
-};
+    <script>
+      // State
+      let state = {
+        currentScreen: "s-landing",
+        customers: [
+          {
+            id: 1,
+            name: "John Martinez",
+            phone: "(512) 555-1234",
+            address: "123 Main St, Leander",
+            price: 50,
+            lastInvoice: null,
+          },
+          {
+            id: 2,
+            name: "Sarah Kim",
+            phone: "(512) 555-5678",
+            address: "456 Oak Ave, Cedar Park",
+            price: 65,
+            lastInvoice: null,
+          },
+          {
+            id: 3,
+            name: "Mike Rodriguez",
+            phone: "(512) 555-9012",
+            address: "789 Elm Dr, Georgetown",
+            price: 70,
+            lastInvoice: null,
+          },
+        ],
+        invoices: [],
+        selectedCustomer: null,
+        currentAmount: "",
+        bankConnected: false,
+        invoiceCount: 0,
+        a2hsShown: false,
+        pin: "",
+      };
 
-// Navigation
-function go(screenId) {
-  const prev = document.getElementById(state.currentScreen);
-  const next = document.getElementById(screenId);
-  if (!next || screenId === state.currentScreen) return;
+      // Navigation
+      function go(screenId) {
+        const prev = document.getElementById(state.currentScreen);
+        const next = document.getElementById(screenId);
+        if (!next || screenId === state.currentScreen) return;
 
-  prev.classList.remove('active');
-  prev.classList.add('exit-left');
-  setTimeout(() => prev.classList.remove('exit-left'), 350);
+        prev.classList.remove("active");
+        prev.classList.add("exit-left");
+        setTimeout(() => prev.classList.remove("exit-left"), 350);
 
-  next.classList.add('active');
-  state.currentScreen = screenId;
+        next.classList.add("active");
+        state.currentScreen = screenId;
 
-  if (screenId === 's-dashboard') renderDashboard();
-  if (screenId === 's-pick-customer') renderCustomerList();
-  if (screenId === 's-amount') renderAmount();
-  if (screenId === 's-history') renderHistory();
-}
+        if (screenId === "s-dashboard") renderDashboard();
+        if (screenId === "s-pick-customer") renderCustomerList();
+        if (screenId === "s-amount") renderAmount();
+        if (screenId === "s-history") renderHistory();
+      }
 
-function switchTab(el, screenId) {
-  go(screenId);
-}
+      function switchTab(el, screenId) {
+        go(screenId);
+      }
 
-// PIN keypad
-function buildKeypad(containerId, onInput) {
-  const c = document.getElementById(containerId);
-  const keys = ['1','2','3','4','5','6','7','8','9','','0','⌫'];
-  c.innerHTML = '';
-  keys.forEach(k => {
-    const b = document.createElement('button');
-    b.className = 'key' + (k === '' ? ' key-empty' : '') + (k === '⌫' ? ' key-del' : '');
-    b.textContent = k;
-    b.disabled = k === '';
-    b.onclick = () => onInput(k);
-    c.appendChild(b);
-  });
-}
+      // PIN keypad
+      function buildKeypad(containerId, onInput) {
+        const c = document.getElementById(containerId);
+        const keys = [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "",
+          "0",
+          "⌫",
+        ];
+        c.innerHTML = "";
+        keys.forEach((k) => {
+          const b = document.createElement("button");
+          b.className =
+            "key" +
+            (k === "" ? " key-empty" : "") +
+            (k === "⌫" ? " key-del" : "");
+          b.textContent = k;
+          b.disabled = k === "";
+          b.onclick = () => onInput(k);
+          c.appendChild(b);
+        });
+      }
 
-// Verify screen keypad
-buildKeypad('keypad', (k) => {
-  if (k === '⌫') {
-    state.pin = state.pin.slice(0, -1);
-  } else if (state.pin.length < 6) {
-    state.pin += k;
-  }
-  const boxes = document.querySelectorAll('#pin-row .pin-box');
-  boxes.forEach((b, i) => {
-    b.textContent = state.pin[i] || '';
-    b.className = 'pin-box' + (state.pin[i] ? ' filled' : '') + (i === state.pin.length ? ' active' : '');
-  });
-  if (state.pin.length === 6) {
-    setTimeout(() => go('s-first-customer'), 400);
-  }
-});
+      // Verify screen keypad
+      buildKeypad("keypad", (k) => {
+        if (k === "⌫") {
+          state.pin = state.pin.slice(0, -1);
+        } else if (state.pin.length < 6) {
+          state.pin += k;
+        }
+        const boxes = document.querySelectorAll("#pin-row .pin-box");
+        boxes.forEach((b, i) => {
+          b.textContent = state.pin[i] || "";
+          b.className =
+            "pin-box" +
+            (state.pin[i] ? " filled" : "") +
+            (i === state.pin.length ? " active" : "");
+        });
+        if (state.pin.length === 6) {
+          setTimeout(() => go("s-first-customer"), 400);
+        }
+      });
 
-// Amount keypad
-buildKeypad('amount-keypad', (k) => {
-  if (k === '⌫') {
-    state.currentAmount = state.currentAmount.slice(0, -1);
-  } else if (state.currentAmount.length < 5) {
-    state.currentAmount += k;
-  }
-  const display = state.currentAmount || (state.selectedCustomer ? String(state.selectedCustomer.price) : '0');
-  document.getElementById('amount-val').textContent = display;
-  document.getElementById('send-amount').textContent = display;
-});
+      // Amount keypad
+      buildKeypad("amount-keypad", (k) => {
+        if (k === "⌫") {
+          state.currentAmount = state.currentAmount.slice(0, -1);
+        } else if (state.currentAmount.length < 5) {
+          state.currentAmount += k;
+        }
+        const display =
+          state.currentAmount ||
+          (state.selectedCustomer ? String(state.selectedCustomer.price) : "0");
+        document.getElementById("amount-val").textContent = display;
+        document.getElementById("send-amount").textContent = display;
+      });
 
-// Render customer list
-function renderCustomerList() {
-  state.selectedCustomer = null;
-  document.getElementById('btn-next-amount').disabled = true;
-  document.getElementById('customer-search').value = '';
-  renderFilteredCustomers(state.customers);
-}
+      // Render customer list
+      function renderCustomerList() {
+        state.selectedCustomer = null;
+        document.getElementById("btn-next-amount").disabled = true;
+        document.getElementById("customer-search").value = "";
+        renderFilteredCustomers(state.customers);
+      }
 
-function renderFilteredCustomers(list) {
-  const container = document.getElementById('customer-list');
-  container.innerHTML = '';
-  list.forEach(c => {
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `
+      function renderFilteredCustomers(list) {
+        const container = document.getElementById("customer-list");
+        container.innerHTML = "";
+        list.forEach((c) => {
+          const div = document.createElement("div");
+          div.className = "card";
+          div.innerHTML = `
       <div style="font-size:15px;font-weight:500">${c.name}</div>
       <div style="font-size:13px;color:var(--text2);margin-top:3px">${c.address}</div>
       <div style="font-size:13px;color:var(--text3);margin-top:3px">$${c.price} usual</div>
     `;
-    div.onclick = () => {
-      container.querySelectorAll('.card').forEach(x => x.classList.remove('selected'));
-      div.classList.add('selected');
-      state.selectedCustomer = c;
-      state.currentAmount = '';
-      document.getElementById('btn-next-amount').disabled = false;
-    };
-    container.appendChild(div);
-  });
-}
+          div.onclick = () => {
+            container
+              .querySelectorAll(".card")
+              .forEach((x) => x.classList.remove("selected"));
+            div.classList.add("selected");
+            state.selectedCustomer = c;
+            state.currentAmount = "";
+            document.getElementById("btn-next-amount").disabled = false;
+          };
+          container.appendChild(div);
+        });
+      }
 
-function filterCustomers(q) {
-  const lower = q.toLowerCase();
-  const filtered = state.customers.filter(c =>
-    c.name.toLowerCase().includes(lower) || c.address.toLowerCase().includes(lower)
-  );
-  renderFilteredCustomers(filtered);
-}
+      function filterCustomers(q) {
+        const lower = q.toLowerCase();
+        const filtered = state.customers.filter(
+          (c) =>
+            c.name.toLowerCase().includes(lower) ||
+            c.address.toLowerCase().includes(lower),
+        );
+        renderFilteredCustomers(filtered);
+      }
 
-// Render amount screen
-function renderAmount() {
-  const c = state.selectedCustomer;
-  if (!c) return;
-  document.getElementById('amount-customer-name').textContent = c.name;
-  document.getElementById('amount-customer-addr').textContent = c.address;
-  document.getElementById('amount-val').textContent = String(c.price);
-  document.getElementById('send-amount').textContent = String(c.price);
-  state.currentAmount = '';
-}
+      // Render amount screen
+      function renderAmount() {
+        const c = state.selectedCustomer;
+        if (!c) return;
+        document.getElementById("amount-customer-name").textContent = c.name;
+        document.getElementById("amount-customer-addr").textContent = c.address;
+        document.getElementById("amount-val").textContent = String(c.price);
+        document.getElementById("send-amount").textContent = String(c.price);
+        state.currentAmount = "";
+      }
 
-// Send invoice
-function sendInvoice() {
-  const c = state.selectedCustomer;
-  const amount = parseInt(state.currentAmount || c.price);
-  const inv = {
-    id: Date.now(),
-    customer: c,
-    amount: amount,
-    status: 'sent',
-    date: new Date(),
-  };
-  state.invoices.unshift(inv);
-  state.invoiceCount++;
+      // Send invoice
+      function sendInvoice() {
+        const c = state.selectedCustomer;
+        const amount = parseInt(state.currentAmount || c.price);
+        const inv = {
+          id: Date.now(),
+          customer: c,
+          amount: amount,
+          status: "sent",
+          date: new Date(),
+        };
+        state.invoices.unshift(inv);
+        state.invoiceCount++;
 
-  document.getElementById('sent-subtitle').textContent = `${c.name.split(' ')[0]} just got a text. You'll know when they pay.`;
-  document.getElementById('sms-preview').innerHTML = `Hi ${c.name.split(' ')[0]}, here's your lawn service invoice for <strong>$${amount}</strong> from Jake's Lawn Care.<br><br><span style="color:var(--green);text-decoration:underline">pay.gettola.com/inv/${String(inv.id).slice(-4)}</span>`;
+        document.getElementById("sent-subtitle").textContent =
+          `${c.name.split(" ")[0]} just got a text. You'll know when they pay.`;
+        document.getElementById("sms-preview").innerHTML =
+          `Hi ${c.name.split(" ")[0]}, here's your lawn service invoice for <strong>$${amount}</strong> from Jake's Lawn Care.<br><br><span style="color:var(--green);text-decoration:underline">pay.gettola.com/inv/${String(inv.id).slice(-4)}</span>`;
 
-  go('s-invoice-sent');
+        go("s-invoice-sent");
 
-  // Simulate payment after 5s
-  setTimeout(() => {
-    inv.status = 'paid';
-    inv.paidAt = new Date();
-    showToast(`💵 ${c.name.split(' ')[0]} paid you $${amount}!`);
-  }, 5000);
-}
+        // Simulate payment after 5s
+        setTimeout(() => {
+          inv.status = "paid";
+          inv.paidAt = new Date();
+          showToast(`💵 ${c.name.split(" ")[0]} paid you $${amount}!`);
+        }, 5000);
+      }
 
-function afterInvoiceSent() {
-  if (state.invoiceCount === 1 && !state.a2hsShown) {
-    state.a2hsShown = true;
-    go('s-dashboard');
-    setTimeout(() => {
-      document.getElementById('a2hs-modal').classList.add('show');
-    }, 500);
-  } else {
-    go('s-dashboard');
-  }
-}
+      function afterInvoiceSent() {
+        if (state.invoiceCount === 1 && !state.a2hsShown) {
+          state.a2hsShown = true;
+          go("s-dashboard");
+          setTimeout(() => {
+            document.getElementById("a2hs-modal").classList.add("show");
+          }, 500);
+        } else {
+          go("s-dashboard");
+        }
+      }
 
-function dismissA2HS() {
-  document.getElementById('a2hs-modal').classList.remove('show');
-}
+      function dismissA2HS() {
+        document.getElementById("a2hs-modal").classList.remove("show");
+      }
 
-// Dashboard
-function renderDashboard() {
-  const body = document.getElementById('dashboard-body');
-  const unpaid = state.invoices.filter(i => i.status === 'sent');
-  const paidTotal = state.invoices.filter(i => i.status === 'paid').reduce((s, i) => s + i.amount, 0);
-  const unpaidTotal = unpaid.reduce((s, i) => s + i.amount, 0);
+      // Dashboard
+      function renderDashboard() {
+        const body = document.getElementById("dashboard-body");
+        const unpaid = state.invoices.filter((i) => i.status === "sent");
+        const paidTotal = state.invoices
+          .filter((i) => i.status === "paid")
+          .reduce((s, i) => s + i.amount, 0);
+        const unpaidTotal = unpaid.reduce((s, i) => s + i.amount, 0);
 
-  let html = `
+        let html = `
     <div style="margin-bottom:20px">
       <span style="font-size:13px;color:var(--text3)">Today</span><br>
       <span style="font-size:20px;font-weight:500">Jake's Lawn Care</span>
@@ -1236,7 +1961,7 @@ function renderDashboard() {
       </div>
       <div class="stat">
         <div class="stat-label">Owed to you</div>
-        <div class="stat-val" style="color:${unpaidTotal > 0 ? 'var(--warn)' : 'var(--text)'}">$${unpaidTotal}</div>
+        <div class="stat-val" style="color:${unpaidTotal > 0 ? "var(--warn)" : "var(--text)"}">$${unpaidTotal}</div>
       </div>
       <div class="stat">
         <div class="stat-label">Clients</div>
@@ -1245,20 +1970,22 @@ function renderDashboard() {
     </div>
   `;
 
-  if (state.invoices.length === 0) {
-    html += `
+        if (state.invoices.length === 0) {
+          html += `
       <div class="empty-icon">
         <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
       </div>
       <p style="text-align:center;font-size:15px;color:var(--text2);line-height:1.5">You're set up. Finish a job,<br>then tap <strong style="color:var(--green)">"Send invoice"</strong> to get paid.</p>
     `;
-  } else {
-    if (unpaid.length > 0) {
-      html += `<div class="section-label">Owed to you (${unpaid.length})</div>`;
-      unpaid.forEach(inv => {
-        const days = Math.floor((Date.now() - inv.date.getTime()) / 86400000);
-        const overdue = days >= 3;
-        html += `
+        } else {
+          if (unpaid.length > 0) {
+            html += `<div class="section-label">Owed to you (${unpaid.length})</div>`;
+            unpaid.forEach((inv) => {
+              const days = Math.floor(
+                (Date.now() - inv.date.getTime()) / 86400000,
+              );
+              const overdue = days >= 3;
+              html += `
           <div class="card" style="cursor:default">
             <div style="display:flex;justify-content:space-between;align-items:start">
               <div>
@@ -1267,23 +1994,23 @@ function renderDashboard() {
               </div>
               <div style="text-align:right">
                 <div style="font-size:16px;font-weight:500">$${inv.amount}</div>
-                <div style="font-size:11px;color:var(--text3);margin-top:2px">${days === 0 ? 'Today' : days + 'd ago'}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px">${days === 0 ? "Today" : days + "d ago"}</div>
               </div>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-              <span class="badge ${overdue ? 'badge-overdue' : 'badge-sent'}">${overdue ? 'Overdue' : 'Sent'}</span>
-              ${overdue ? '<button class="remind-btn" onclick="showToast(\'Reminder sent — they\\\'ll get a text now\')">Send reminder</button>' : ''}
+              <span class="badge ${overdue ? "badge-overdue" : "badge-sent"}">${overdue ? "Overdue" : "Sent"}</span>
+              ${overdue ? '<button class="remind-btn" onclick="showToast(\'Reminder sent — they\\\'ll get a text now\')">Send reminder</button>' : ""}
             </div>
           </div>
         `;
-      });
-    }
+            });
+          }
 
-    const paid = state.invoices.filter(i => i.status === 'paid');
-    if (paid.length > 0) {
-      html += `<div class="section-label" style="margin-top:16px">Paid</div>`;
-      paid.slice(0, 5).forEach(inv => {
-        html += `
+          const paid = state.invoices.filter((i) => i.status === "paid");
+          if (paid.length > 0) {
+            html += `<div class="section-label" style="margin-top:16px">Paid</div>`;
+            paid.slice(0, 5).forEach((inv) => {
+              html += `
           <div class="card" style="cursor:default;opacity:0.7">
             <div style="display:flex;justify-content:space-between;align-items:center">
               <div>
@@ -1297,38 +2024,41 @@ function renderDashboard() {
             </div>
           </div>
         `;
-      });
-    }
-  }
+            });
+          }
+        }
 
-  // Bank connection prompt
-  if (!state.bankConnected && state.invoices.some(i => i.status === 'paid')) {
-    html += `
+        // Bank connection prompt
+        if (
+          !state.bankConnected &&
+          state.invoices.some((i) => i.status === "paid")
+        ) {
+          html += `
       <div style="background:var(--green-bg);border:1px solid rgba(29,185,84,0.2);border-radius:var(--radius);padding:16px;margin-top:16px;cursor:pointer" onclick="go('s-connect-bank')">
         <div style="font-size:14px;font-weight:500;color:var(--green);margin-bottom:4px">💰 You have money waiting</div>
         <div style="font-size:13px;color:var(--text2)">Connect your bank to cash out now</div>
       </div>
     `;
-  }
+        }
 
-  html += '<div style="height:80px"></div>';
-  body.innerHTML = html;
-}
+        html += '<div style="height:80px"></div>';
+        body.innerHTML = html;
+      }
 
-// History
-function renderHistory() {
-  const container = document.getElementById('history-list');
-  if (state.invoices.length === 0) {
-    container.innerHTML = `
+      // History
+      function renderHistory() {
+        const container = document.getElementById("history-list");
+        if (state.invoices.length === 0) {
+          container.innerHTML = `
       <div style="text-align:center;padding:60px 20px">
         <p style="color:var(--text3);font-size:15px">No invoices yet — send your first one from the home screen</p>
       </div>
     `;
-    return;
-  }
-  let html = '';
-  state.invoices.forEach(inv => {
-    html += `
+          return;
+        }
+        let html = "";
+        state.invoices.forEach((inv) => {
+          html += `
       <div class="card" style="cursor:default">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div>
@@ -1337,46 +2067,64 @@ function renderHistory() {
             <div style="font-size:12px;color:var(--text3);margin-top:4px">${inv.date.toLocaleDateString()}</div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:16px;font-weight:500;color:${inv.status === 'paid' ? 'var(--green)' : 'var(--text)'}">$${inv.amount}</div>
-            <span class="badge ${inv.status === 'paid' ? 'badge-paid' : 'badge-sent'}" style="margin-top:4px">${inv.status === 'paid' ? 'Paid' : 'Sent'}</span>
+            <div style="font-size:16px;font-weight:500;color:${inv.status === "paid" ? "var(--green)" : "var(--text)"}">$${inv.amount}</div>
+            <span class="badge ${inv.status === "paid" ? "badge-paid" : "badge-sent"}" style="margin-top:4px">${inv.status === "paid" ? "Paid" : "Sent"}</span>
           </div>
         </div>
       </div>
     `;
-  });
-  html += '<div style="height:80px"></div>';
-  container.innerHTML = html;
-}
+        });
+        html += '<div style="height:80px"></div>';
+        container.innerHTML = html;
+      }
 
-// Add customer
-function addNewCustomer() {
-  const name = document.getElementById('new-cust-name').value.trim();
-  const phone = document.getElementById('new-cust-phone').value.trim();
-  const addr = document.getElementById('new-cust-addr').value.trim();
-  const price = parseInt(document.getElementById('new-cust-price').value.replace(/\D/g,'')) || 50;
-  if (!name) { showToast('Enter a name'); return; }
-  state.customers.unshift({ id: Date.now(), name, phone, address: addr || 'No address', price });
-  // Clear fields
-  ['new-cust-name','new-cust-phone','new-cust-addr','new-cust-price'].forEach(id => document.getElementById(id).value = '');
-  showToast(`${name} added — ready to invoice`);
-  go('s-dashboard');
-}
+      // Add customer
+      function addNewCustomer() {
+        const name = document.getElementById("new-cust-name").value.trim();
+        const phone = document.getElementById("new-cust-phone").value.trim();
+        const addr = document.getElementById("new-cust-addr").value.trim();
+        const price =
+          parseInt(
+            document.getElementById("new-cust-price").value.replace(/\D/g, ""),
+          ) || 50;
+        if (!name) {
+          showToast("Enter a name");
+          return;
+        }
+        state.customers.unshift({
+          id: Date.now(),
+          name,
+          phone,
+          address: addr || "No address",
+          price,
+        });
+        // Clear fields
+        [
+          "new-cust-name",
+          "new-cust-phone",
+          "new-cust-addr",
+          "new-cust-price",
+        ].forEach((id) => (document.getElementById(id).value = ""));
+        showToast(`${name} added — ready to invoice`);
+        go("s-dashboard");
+      }
 
-// Connect bank
-function connectBank() {
-  state.bankConnected = true;
-  document.getElementById('bank-status-text').innerHTML = 'Visa •••• 4242 <span class="chevron">›</span>';
-  showToast('Bank connected — you\'re getting paid!');
-  go('s-profile');
-}
+      // Connect bank
+      function connectBank() {
+        state.bankConnected = true;
+        document.getElementById("bank-status-text").innerHTML =
+          'Visa •••• 4242 <span class="chevron">›</span>';
+        showToast("Bank connected — you're getting paid!");
+        go("s-profile");
+      }
 
-// Toast
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-</script>
-</body>
+      // Toast
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2500);
+      }
+    </script>
+  </body>
 </html>
