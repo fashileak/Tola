@@ -64,8 +64,7 @@ html, body {
   transform: translateX(40px);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 .screen.active {
   opacity: 1;
@@ -93,6 +92,9 @@ html, body {
 .screen-body {
   flex: 1;
   padding: 0 20px 120px;
+  overflow-y: auto;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 h1 {
@@ -527,6 +529,8 @@ h2 {
 /* Scrollbar hide */
 .screen::-webkit-scrollbar { display: none; }
 .screen { scrollbar-width: none; }
+.screen-body::-webkit-scrollbar { display: none; }
+.screen-body { scrollbar-width: none; }
 
 /* Back button */
 .back-btn {
@@ -572,8 +576,8 @@ h2 {
         <div style="margin-bottom:48px">
           <div style="font-size:44px;font-weight:600;letter-spacing:-2px;color:var(--text)">t<span style="color:var(--green)">o</span>la</div>
         </div>
-        <h1 style="font-size:28px;margin-bottom:8px">Finish the job.<br>Get paid today.</h1>
-        <p style="font-size:15px;color:var(--text2);margin-bottom:48px;line-height:1.5">Send invoices in two taps.<br>Homeowners pay instantly.</p>
+        <h1 style="font-size:28px;margin-bottom:8px">Stop chasing<br>payments.</h1>
+        <p style="font-size:15px;color:var(--text2);margin-bottom:48px;line-height:1.5">Text an invoice. They tap a link. Money hits your account.</p>
         <button class="btn btn-primary" onclick="go('s-signup')">Get started — it's free</button>
         <p style="font-size:12px;color:var(--text3);margin-top:16px">No app download. No subscription. No catch.</p>
       </div>
@@ -595,8 +599,8 @@ h2 {
         <div class="step-dot"></div>
         <div class="step-dot"></div>
       </div>
-      <h1>About you</h1>
-      <p class="subtitle" style="margin-bottom:28px">Takes 30 seconds</p>
+      <h1>Set up your business</h1>
+      <p class="subtitle" style="margin-bottom:28px">Three fields. 30 seconds.</p>
       <div class="input-group">
         <label>Your name</label>
         <input class="input-field" id="inp-name" placeholder="Jake Williams" value="Jake Williams">
@@ -660,10 +664,10 @@ h2 {
         <div class="step-dot done"></div>
         <div class="step-dot current"></div>
       </div>
-      <h1>Add your first customer</h1>
+      <h1>Your first invoice is 60 seconds away</h1>
       <p class="subtitle" style="margin-bottom:28px">Who'd you mow for last?</p>
       <div class="input-group">
-        <label>Customer name</label>
+        <label>Their name</label>
         <input class="input-field" placeholder="John Martinez" value="John Martinez">
       </div>
       <div class="input-group">
@@ -675,12 +679,12 @@ h2 {
         <input class="input-field" placeholder="123 Main St, Leander" value="123 Main St, Leander">
       </div>
       <div class="input-group">
-        <label>Usual price</label>
+        <label>What you charge them</label>
         <input class="input-field" type="text" placeholder="$50" value="$50">
       </div>
     </div>
     <div class="bottom-bar" style="flex-direction:column;gap:8px">
-      <button class="btn btn-primary" onclick="go('s-dashboard')">Add customer</button>
+      <button class="btn btn-primary" onclick="go('s-dashboard')">Save & continue</button>
       <button class="btn btn-ghost" onclick="go('s-dashboard')">Skip for now</button>
     </div>
   </div>
@@ -756,7 +760,7 @@ h2 {
       <p class="subtitle" id="amount-customer-addr">123 Main St, Leander</p>
       <div class="amount-display">
         <span class="currency">$</span><span class="amount" id="amount-val">50</span>
-        <div class="hint">Usual price — tap to change</div>
+        <div class="hint">Their usual rate — tap to adjust</div>
       </div>
       <div class="keypad" id="amount-keypad"></div>
     </div>
@@ -778,13 +782,13 @@ h2 {
       <div class="success-circle">
         <svg viewBox="0 0 32 32"><path class="checkmark-path" d="M8 16l6 6 10-12" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h1 style="font-size:22px">Invoice sent</h1>
-      <p class="subtitle" id="sent-subtitle">John will get a text with a pay link</p>
+      <h1 style="font-size:22px">Boom — invoice sent</h1>
+      <p class="subtitle" id="sent-subtitle">John just got a text. You'll know when they pay.</p>
       <div style="text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:24px 0">
         <p style="font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">What they see</p>
         <div class="sms-bubble sms-in" style="max-width:100%" id="sms-preview"></div>
       </div>
-      <button class="btn btn-primary" onclick="afterInvoiceSent()" style="margin-top:8px">Done</button>
+      <button class="btn btn-primary" onclick="afterInvoiceSent()" style="margin-top:8px">Back to dashboard</button>
     </div>
   </div>
 
@@ -875,7 +879,7 @@ h2 {
         </div>
         <div class="settings-item" onclick="go('s-connect-bank')" id="bank-setting">
           <span class="settings-label">Bank / payouts</span>
-          <span class="settings-val" id="bank-status-text">Not connected <span class="chevron">›</span></span>
+          <span class="settings-val" id="bank-status-text">Not connected ⚠️ <span class="chevron">›</span></span>
         </div>
       </div>
 
@@ -944,10 +948,10 @@ h2 {
           <svg viewBox="0 0 32 32" style="width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2"><rect x="4" y="8" width="24" height="16" rx="2"/><path d="M4 14h24"/></svg>
         </div>
         <h2>Connect your bank</h2>
-        <p class="subtitle">Get paid directly to your account</p>
+        <p class="subtitle">Your money goes straight to your bank. Secure & instant.</p>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px">
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px">Powered by Stripe</p>
+        <p style="font-size:12px;color:var(--text3);margin-bottom:12px">🔒 Secured by Stripe — used by millions of businesses</p>
         <div class="input-group">
           <label>Legal name</label>
           <input class="input-field" value="Jake Williams">
@@ -988,12 +992,12 @@ h2 {
         <svg viewBox="0 0 32 32" style="width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2"><path d="M16 4v24M10 10c0-2 2-4 6-4s6 2 6 4-2 3-6 4-6 2-6 4 2 4 6 4 6-2 6-4" stroke-linecap="round"/></svg>
       </div>
       <h1 style="font-size:22px" id="payment-title">John just paid $50</h1>
-      <p class="subtitle" id="payment-subtitle">Deposited after you connect your bank</p>
+      <p class="subtitle" id="payment-subtitle">This money is yours — connect your bank to get it</p>
       <div style="background:var(--green-bg);border-radius:var(--radius);padding:18px;margin:24px 0;text-align:left">
-        <p style="font-size:14px;color:var(--green);line-height:1.5" id="payment-cta">You have <strong>$50.00</strong> ready to deposit. Connect your bank to get paid.</p>
+        <p style="font-size:14px;color:var(--green);line-height:1.5" id="payment-cta"><strong>$50.00</strong> is waiting in your account. The longer you wait, the longer your money sits unclaimed.</p>
       </div>
       <button class="btn btn-primary" id="payment-btn" onclick="go('s-connect-bank')">Connect bank — takes 2 min</button>
-      <button class="btn btn-ghost" onclick="go('s-dashboard')" style="margin-top:4px">I'll do this later</button>
+      <button class="btn btn-ghost" onclick="go('s-dashboard')" style="margin-top:4px">Remind me later</button>
     </div>
   </div>
 
@@ -1007,8 +1011,8 @@ h2 {
       <div style="width:56px;height:56px;border-radius:14px;background:var(--green-bg2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
         <span style="font-size:24px;font-weight:600;color:var(--green)">t<span style="color:var(--green)">o</span></span>
       </div>
-      <h2>Add Tola to your home screen</h2>
-      <p style="font-size:14px;color:var(--text2);margin-top:6px">Open it like an app — one tap away</p>
+      <h2>Keep Tola one tap away</h2>
+      <p style="font-size:14px;color:var(--text2);margin-top:6px">No app store. No download. Just your invoices, ready to go.</p>
     </div>
     <div class="a2hs-step">
       <div class="a2hs-num">1</div>
@@ -1022,7 +1026,7 @@ h2 {
       <div class="a2hs-num">3</div>
       <div class="a2hs-text">Tap <strong>"Add"</strong> — that's it</div>
     </div>
-    <button class="btn btn-primary" style="margin-top:20px" onclick="dismissA2HS()">Got it</button>
+    <button class="btn btn-primary" style="margin-top:20px" onclick="dismissA2HS()">Show me how</button>
     <button class="btn btn-ghost" onclick="dismissA2HS()">Maybe later</button>
   </div>
 </div>
@@ -1178,7 +1182,7 @@ function sendInvoice() {
   state.invoices.unshift(inv);
   state.invoiceCount++;
 
-  document.getElementById('sent-subtitle').textContent = `${c.name.split(' ')[0]} will get a text with a pay link`;
+  document.getElementById('sent-subtitle').textContent = `${c.name.split(' ')[0]} just got a text. You'll know when they pay.`;
   document.getElementById('sms-preview').innerHTML = `Hi ${c.name.split(' ')[0]}, here's your lawn service invoice for <strong>$${amount}</strong> from Jake's Lawn Care.<br><br><span style="color:var(--green);text-decoration:underline">pay.gettola.com/inv/${String(inv.id).slice(-4)}</span>`;
 
   go('s-invoice-sent');
@@ -1187,7 +1191,7 @@ function sendInvoice() {
   setTimeout(() => {
     inv.status = 'paid';
     inv.paidAt = new Date();
-    showToast(`${c.name.split(' ')[0]} paid $${amount}`);
+    showToast(`💵 ${c.name.split(' ')[0]} paid you $${amount}!`);
   }, 5000);
 }
 
@@ -1216,16 +1220,16 @@ function renderDashboard() {
 
   let html = `
     <div style="margin-bottom:20px">
-      <span style="font-size:13px;color:var(--text3)">Welcome back</span><br>
+      <span style="font-size:13px;color:var(--text3)">Today</span><br>
       <span style="font-size:20px;font-weight:500">Jake's Lawn Care</span>
     </div>
     <div class="stats">
       <div class="stat">
-        <div class="stat-label">Earned</div>
+        <div class="stat-label">Collected</div>
         <div class="stat-val" style="color:var(--green)">$${paidTotal}</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Unpaid</div>
+        <div class="stat-label">Owed to you</div>
         <div class="stat-val" style="color:${unpaidTotal > 0 ? 'var(--warn)' : 'var(--text)'}">$${unpaidTotal}</div>
       </div>
       <div class="stat">
@@ -1240,11 +1244,11 @@ function renderDashboard() {
       <div class="empty-icon">
         <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
       </div>
-      <p style="text-align:center;font-size:15px;color:var(--text2);line-height:1.5">Finish a job and tap<br><strong style="color:var(--text)">"Send invoice"</strong> below</p>
+      <p style="text-align:center;font-size:15px;color:var(--text2);line-height:1.5">You're set up. Finish a job,<br>then tap <strong style="color:var(--green)">"Send invoice"</strong> to get paid.</p>
     `;
   } else {
     if (unpaid.length > 0) {
-      html += `<div class="section-label">Unpaid (${unpaid.length})</div>`;
+      html += `<div class="section-label">Owed to you (${unpaid.length})</div>`;
       unpaid.forEach(inv => {
         const days = Math.floor((Date.now() - inv.date.getTime()) / 86400000);
         const overdue = days >= 3;
@@ -1262,7 +1266,7 @@ function renderDashboard() {
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
               <span class="badge ${overdue ? 'badge-overdue' : 'badge-sent'}">${overdue ? 'Overdue' : 'Sent'}</span>
-              ${overdue ? '<button class="remind-btn" onclick="showToast(\'Reminder sent\')">Send reminder</button>' : ''}
+              ${overdue ? '<button class="remind-btn" onclick="showToast(\'Reminder sent — they\\\'ll get a text now\')">Send reminder</button>' : ''}
             </div>
           </div>
         `;
@@ -1295,8 +1299,8 @@ function renderDashboard() {
   if (!state.bankConnected && state.invoices.some(i => i.status === 'paid')) {
     html += `
       <div style="background:var(--green-bg);border:1px solid rgba(29,185,84,0.2);border-radius:var(--radius);padding:16px;margin-top:16px;cursor:pointer" onclick="go('s-connect-bank')">
-        <div style="font-size:14px;font-weight:500;color:var(--green);margin-bottom:4px">Money waiting for you</div>
-        <div style="font-size:13px;color:var(--text2)">Connect your bank to receive payouts</div>
+        <div style="font-size:14px;font-weight:500;color:var(--green);margin-bottom:4px">💰 You have money waiting</div>
+        <div style="font-size:13px;color:var(--text2)">Connect your bank to cash out now</div>
       </div>
     `;
   }
@@ -1311,7 +1315,7 @@ function renderHistory() {
   if (state.invoices.length === 0) {
     container.innerHTML = `
       <div style="text-align:center;padding:60px 20px">
-        <p style="color:var(--text3);font-size:15px">No invoices yet</p>
+        <p style="color:var(--text3);font-size:15px">No invoices yet — send your first one from the home screen</p>
       </div>
     `;
     return;
@@ -1348,7 +1352,7 @@ function addNewCustomer() {
   state.customers.unshift({ id: Date.now(), name, phone, address: addr || 'No address', price });
   // Clear fields
   ['new-cust-name','new-cust-phone','new-cust-addr','new-cust-price'].forEach(id => document.getElementById(id).value = '');
-  showToast(`${name} added`);
+  showToast(`${name} added — ready to invoice`);
   go('s-dashboard');
 }
 
@@ -1356,7 +1360,7 @@ function addNewCustomer() {
 function connectBank() {
   state.bankConnected = true;
   document.getElementById('bank-status-text').innerHTML = 'Visa •••• 4242 <span class="chevron">›</span>';
-  showToast('Bank connected — payouts active');
+  showToast('Bank connected — you\'re getting paid!');
   go('s-profile');
 }
 
