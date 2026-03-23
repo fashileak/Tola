@@ -428,44 +428,6 @@
         transform: translateX(-50%) translateY(0);
       }
 
-      /* Add to homescreen modal */
-      .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 50;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s;
-      }
-      .modal-overlay.show {
-        opacity: 1;
-        pointer-events: all;
-      }
-      .modal-sheet {
-        background: var(--surface);
-        border-radius: 20px 20px 0 0;
-        padding: 28px 24px;
-        padding-bottom: max(28px, env(safe-area-inset-bottom));
-        width: 100%;
-        max-width: 430px;
-        transform: translateY(100%);
-        transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-      }
-      .modal-overlay.show .modal-sheet {
-        transform: translateY(0);
-      }
-      .modal-handle {
-        width: 36px;
-        height: 4px;
-        background: var(--text3);
-        border-radius: 2px;
-        margin: 0 auto 20px;
-        opacity: 0.4;
-      }
 
       /* Success animation */
       .success-circle {
@@ -666,34 +628,6 @@
         border-radius: 4px;
       }
 
-      /* A2HS instructions */
-      .a2hs-step {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        padding: 14px 0;
-      }
-      .a2hs-num {
-        min-width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: var(--green-bg2);
-        color: var(--green);
-        font-size: 13px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .a2hs-text {
-        font-size: 14px;
-        color: var(--text2);
-        line-height: 1.5;
-      }
-      .a2hs-text strong {
-        color: var(--text);
-        font-weight: 500;
-      }
 
       /* Amount display */
       .amount-display {
@@ -1637,63 +1571,6 @@
       </div>
     </div>
 
-    <!-- Add to Home Screen Modal -->
-    <div class="modal-overlay" id="a2hs-modal">
-      <div class="modal-sheet">
-        <div class="modal-handle"></div>
-        <div style="text-align: center; margin-bottom: 20px">
-          <div
-            style="
-              width: 56px;
-              height: 56px;
-              border-radius: 14px;
-              background: var(--green-bg2);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              margin: 0 auto 12px;
-            "
-          >
-            <span style="font-size: 24px; font-weight: 600; color: var(--green)"
-              >t<span style="color: var(--green)">o</span></span
-            >
-          </div>
-          <h2 data-i18n="keep_tola">Keep Tola one tap away</h2>
-          <p style="font-size: 14px; color: var(--text2); margin-top: 6px" data-i18n="a2hs_sub">
-            No app store. No download. Just your invoices, ready to go.
-          </p>
-        </div>
-        <div class="a2hs-step">
-          <div class="a2hs-num">1</div>
-          <div class="a2hs-text" data-i18n-html="a2hs_step1">
-            Tap the <strong>share button</strong> at the bottom of your browser
-            (the square with an arrow)
-          </div>
-        </div>
-        <div class="a2hs-step">
-          <div class="a2hs-num">2</div>
-          <div class="a2hs-text" data-i18n-html="a2hs_step2">
-            Scroll down and tap <strong>"Add to Home Screen"</strong>
-          </div>
-        </div>
-        <div class="a2hs-step">
-          <div class="a2hs-num">3</div>
-          <div class="a2hs-text" data-i18n-html="a2hs_step3">Tap <strong>"Add"</strong> — that's it</div>
-        </div>
-        <button
-          class="btn btn-primary"
-          style="margin-top: 20px"
-          onclick="dismissA2HS()"
-          data-i18n="show_me"
-        >
-          Show me how
-        </button>
-        <button class="btn btn-ghost" onclick="dismissA2HS()" data-i18n="maybe_later">
-          Maybe later
-        </button>
-      </div>
-    </div>
-
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
@@ -1786,13 +1663,6 @@
           waiting_tpl: '<strong>${amount}</strong> is waiting in your account. The longer you wait, the longer your money sits unclaimed.',
           connect_bank_2min: 'Connect bank — takes 2 min',
           remind_later: 'Remind me later',
-          keep_tola: 'Keep Tola one tap away',
-          a2hs_sub: 'No app store. No download. Just your invoices, ready to go.',
-          a2hs_step1: 'Tap the <strong>share button</strong> at the bottom of your browser (the square with an arrow)',
-          a2hs_step2: 'Scroll down and tap <strong>"Add to Home Screen"</strong>',
-          a2hs_step3: 'Tap <strong>"Add"</strong> — that\'s it',
-          show_me: 'Show me how',
-          maybe_later: 'Maybe later',
           toast_reminder: 'Reminder sent — they\'ll get a text now',
           toast_added_tpl: '{name} added — ready to invoice',
           toast_bank: 'Bank connected — you\'re getting paid!',
@@ -1885,13 +1755,6 @@
           waiting_tpl: '<strong>${amount}</strong> está esperando en tu cuenta. Entre más esperes, más tiempo pasa tu dinero sin cobrar.',
           connect_bank_2min: 'Conectar banco — toma 2 min',
           remind_later: 'Recordarme después',
-          keep_tola: 'Ten Tola a un toque',
-          a2hs_sub: 'Sin tienda de apps. Sin descarga. Solo tus facturas, listas para usar.',
-          a2hs_step1: 'Toca el <strong>botón de compartir</strong> en la parte inferior de tu navegador (el cuadrado con una flecha)',
-          a2hs_step2: 'Baja y toca <strong>"Agregar a pantalla de inicio"</strong>',
-          a2hs_step3: 'Toca <strong>"Agregar"</strong> — eso es todo',
-          show_me: 'Muéstrame cómo',
-          maybe_later: 'Quizás después',
           toast_reminder: 'Recordatorio enviado — le va a llegar un mensaje ahora',
           toast_added_tpl: '{name} agregado — listo para facturar',
           toast_bank: '¡Banco conectado — ya puedes cobrar!',
@@ -1972,7 +1835,6 @@
         currentAmount: "",
         bankConnected: false,
         invoiceCount: 0,
-        a2hsShown: false,
         pin: "",
       };
 
@@ -2154,19 +2016,7 @@
       }
 
       function afterInvoiceSent() {
-        if (state.invoiceCount === 1 && !state.a2hsShown) {
-          state.a2hsShown = true;
-          go("s-dashboard");
-          setTimeout(() => {
-            document.getElementById("a2hs-modal").classList.add("show");
-          }, 500);
-        } else {
-          go("s-dashboard");
-        }
-      }
-
-      function dismissA2HS() {
-        document.getElementById("a2hs-modal").classList.remove("show");
+        go("s-dashboard");
       }
 
       // Dashboard
