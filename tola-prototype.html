@@ -771,8 +771,8 @@
   </head>
   <body>
     <div class="app" id="app">
-      <!-- SCREEN: Landing -->
-      <div class="screen active" id="s-landing">
+      <!-- SCREEN: Language Selection -->
+      <div class="screen active" id="s-lang">
         <div
           style="
             flex: 1;
@@ -796,7 +796,56 @@
                 t<span style="color: var(--green)">o</span>la
               </div>
             </div>
-            <h1 style="font-size: 28px; margin-bottom: 8px">
+            <p
+              style="
+                font-size: 16px;
+                color: var(--text2);
+                margin-bottom: 36px;
+                line-height: 1.5;
+              "
+            >
+              Choose your language<br />Elige tu idioma
+            </p>
+            <button
+              class="btn btn-primary"
+              style="margin-bottom: 12px"
+              onclick="setLang('en')"
+            >
+              English
+            </button>
+            <button class="btn btn-secondary" onclick="setLang('es')">
+              Español
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN: Landing -->
+      <div class="screen" id="s-landing">
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 28px;
+            text-align: center;
+          "
+        >
+          <div class="fade-children">
+            <div style="margin-bottom: 48px">
+              <div
+                style="
+                  font-size: 44px;
+                  font-weight: 600;
+                  letter-spacing: -2px;
+                  color: var(--text);
+                "
+              >
+                t<span style="color: var(--green)">o</span>la
+              </div>
+            </div>
+            <h1 style="font-size: 28px; margin-bottom: 8px" data-i18n="hero_title">
               Stop chasing<br />payments.
             </h1>
             <p
@@ -806,13 +855,14 @@
                 margin-bottom: 48px;
                 line-height: 1.5;
               "
+              data-i18n="hero_sub"
             >
               Text an invoice. They tap a link.<br>Money hits your account.
             </p>
-            <button class="btn btn-primary" onclick="go('s-signup')">
+            <button class="btn btn-primary" onclick="go('s-signup')" data-i18n="get_started">
               Get started
             </button>
-            <p style="font-size: 12px; color: var(--text3); margin-top: 16px">
+            <p style="font-size: 12px; color: var(--text3); margin-top: 16px" data-i18n="hero_footer">
               No app download. No subscription. No catch.
             </p>
           </div>
@@ -839,14 +889,13 @@
           <div class="steps">
             <div class="step-dot current"></div>
             <div class="step-dot"></div>
-            <div class="step-dot"></div>
           </div>
-          <h1>Set up your business</h1>
-          <p class="subtitle" style="margin-bottom: 28px">
+          <h1 data-i18n="setup_title">Set up your business</h1>
+          <p class="subtitle" style="margin-bottom: 28px" data-i18n="setup_sub">
             Three fields. 30 seconds.
           </p>
           <div class="input-group">
-            <label>Your name</label>
+            <label data-i18n="label_name">Your name</label>
             <input
               class="input-field"
               id="inp-name"
@@ -855,7 +904,7 @@
             />
           </div>
           <div class="input-group">
-            <label>Business name</label>
+            <label data-i18n="label_biz">Business name</label>
             <input
               class="input-field"
               id="inp-biz"
@@ -864,7 +913,7 @@
             />
           </div>
           <div class="input-group">
-            <label>Phone number</label>
+            <label data-i18n="label_phone">Phone number</label>
             <input
               class="input-field"
               id="inp-phone"
@@ -875,7 +924,7 @@
           </div>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn-primary" onclick="go('s-verify')">
+          <button class="btn btn-primary" onclick="go('s-verify')" data-i18n="btn_continue">
             Continue
           </button>
         </div>
@@ -901,10 +950,9 @@
           <div class="steps">
             <div class="step-dot done"></div>
             <div class="step-dot current"></div>
-            <div class="step-dot"></div>
           </div>
-          <h1>Verify your number</h1>
-          <p class="subtitle" style="margin-bottom: 8px">
+          <h1 data-i18n="verify_title">Verify your number</h1>
+          <p class="subtitle" style="margin-bottom: 8px" data-i18n="verify_sub">
             Code sent to (512) 555-0147
           </p>
           <div class="pin-row" id="pin-row">
@@ -916,79 +964,8 @@
             <div class="pin-box" data-i="5"></div>
           </div>
           <div class="keypad" id="keypad"></div>
-          <button class="btn-ghost" style="margin-top: 16px">
+          <button class="btn-ghost" style="margin-top: 16px" data-i18n="resend">
             Resend code
-          </button>
-        </div>
-      </div>
-
-      <!-- SCREEN: Add first customer -->
-      <div class="screen" id="s-first-customer">
-        <div class="status-bar">
-          <button class="back-btn" onclick="go('s-verify')">
-            <svg viewBox="0 0 24 24">
-              <path
-                d="M15 18l-6-6 6-6"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <div class="logo">t<span>o</span>la</div>
-          <div style="width: 24px"></div>
-        </div>
-        <div class="screen-body fade-children">
-          <div class="steps">
-            <div class="step-dot done"></div>
-            <div class="step-dot done"></div>
-            <div class="step-dot current"></div>
-          </div>
-          <h1>Your first invoice is 60 seconds away</h1>
-          <p class="subtitle" style="margin-bottom: 28px">
-            Who'd you mow for last?
-          </p>
-          <div class="input-group">
-            <label>Their name</label>
-            <input
-              class="input-field"
-              placeholder="John Martinez"
-              value="John Martinez"
-            />
-          </div>
-          <div class="input-group">
-            <label>Their phone</label>
-            <input
-              class="input-field"
-              type="tel"
-              placeholder="(512) 555-1234"
-              value="(512) 555-1234"
-            />
-          </div>
-          <div class="input-group">
-            <label>Address</label>
-            <input
-              class="input-field"
-              placeholder="123 Main St, Leander"
-              value="123 Main St, Leander"
-            />
-          </div>
-          <div class="input-group">
-            <label>What you charge them</label>
-            <input
-              class="input-field"
-              type="text"
-              placeholder="$50"
-              value="$50"
-            />
-          </div>
-        </div>
-        <div class="bottom-bar" style="flex-direction: column; gap: 8px">
-          <button class="btn btn-primary" onclick="go('s-dashboard')">
-            Save & continue
-          </button>
-          <button class="btn btn-ghost" onclick="go('s-dashboard')">
-            Skip for now
           </button>
         </div>
       </div>
@@ -1024,12 +1001,13 @@
               <path d="M22 2L11 13" />
               <path d="M22 2L15 22L11 13L2 9L22 2Z" />
             </svg>
-            Send invoice
+            <span data-i18n="send_invoice">Send invoice</span>
           </button>
           <button
             class="btn btn-secondary"
             style="flex: 0.8"
             onclick="go('s-add-customer')"
+            data-i18n="add_client"
           >
             + Add client
           </button>
@@ -1090,8 +1068,8 @@
           <div style="width: 24px"></div>
         </div>
         <div class="screen-body fade-children">
-          <h2>Invoice who?</h2>
-          <p class="subtitle" style="margin-bottom: 20px">
+          <h2 data-i18n="invoice_who">Invoice who?</h2>
+          <p class="subtitle" style="margin-bottom: 20px" data-i18n="search_hint">
             Search by name or address
           </p>
           <div class="search-wrap">
@@ -1106,7 +1084,7 @@
               oninput="filterCustomers(this.value)"
             />
           </div>
-          <div class="section-label">Recent</div>
+          <div class="section-label" data-i18n="recent">Recent</div>
           <div id="customer-list"></div>
         </div>
         <div class="bottom-bar">
@@ -1116,7 +1094,7 @@
             disabled
             onclick="go('s-amount')"
           >
-            Next
+            <span data-i18n="next">Next</span>
           </button>
         </div>
       </div>
@@ -1143,7 +1121,7 @@
           <div class="amount-display">
             <span class="currency">$</span
             ><span class="amount" id="amount-val">50</span>
-            <div class="hint">Their usual rate — tap to adjust</div>
+            <div class="hint" data-i18n="usual_rate">Their usual rate — tap to adjust</div>
           </div>
           <div class="keypad" id="amount-keypad"></div>
         </div>
@@ -1153,7 +1131,7 @@
             id="btn-send-invoice"
             onclick="sendInvoice()"
           >
-            Send invoice — $<span id="send-amount">50</span>
+            <span data-i18n="send_invoice_amount">Send invoice — $</span><span id="send-amount">50</span>
           </button>
         </div>
       </div>
@@ -1176,7 +1154,7 @@
               />
             </svg>
           </div>
-          <h1 style="font-size: 22px">Boom — invoice sent</h1>
+          <h1 style="font-size: 22px" data-i18n="boom_sent">Boom — invoice sent</h1>
           <p class="subtitle" id="sent-subtitle">
             John just got a text. You'll know when they pay.
           </p>
@@ -1199,7 +1177,7 @@
                 letter-spacing: 0.5px;
               "
             >
-              What they see
+              <span data-i18n="what_they_see">What they see</span>
             </p>
             <div
               class="sms-bubble sms-in"
@@ -1212,7 +1190,7 @@
             onclick="afterInvoiceSent()"
             style="margin-top: 8px"
           >
-            Back to dashboard
+            <span data-i18n="back_dashboard">Back to dashboard</span>
           </button>
         </div>
       </div>
@@ -1234,10 +1212,10 @@
           <div style="width: 24px"></div>
         </div>
         <div class="screen-body fade-children">
-          <h1>New customer</h1>
+          <h1 data-i18n="new_customer">New customer</h1>
           <p class="subtitle" style="margin-bottom: 28px"></p>
           <div class="input-group">
-            <label>Name</label>
+            <label data-i18n="label_cust_name">Name</label>
             <input
               class="input-field"
               id="new-cust-name"
@@ -1245,7 +1223,7 @@
             />
           </div>
           <div class="input-group">
-            <label>Phone</label>
+            <label data-i18n="label_cust_phone">Phone</label>
             <input
               class="input-field"
               id="new-cust-phone"
@@ -1254,7 +1232,7 @@
             />
           </div>
           <div class="input-group">
-            <label>Address</label>
+            <label data-i18n="label_cust_addr">Address</label>
             <input
               class="input-field"
               id="new-cust-addr"
@@ -1262,7 +1240,7 @@
             />
           </div>
           <div class="input-group">
-            <label>Usual price</label>
+            <label data-i18n="label_usual_price">Usual price</label>
             <input
               class="input-field"
               id="new-cust-price"
@@ -1272,7 +1250,7 @@
           </div>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn-primary" onclick="addNewCustomer()">
+          <button class="btn btn-primary" onclick="addNewCustomer()" data-i18n="btn_add_customer">
             Add customer
           </button>
         </div>
@@ -1286,7 +1264,7 @@
           <div></div>
         </div>
         <div class="screen-body">
-          <h2 style="margin-bottom: 20px">Payment history</h2>
+          <h2 style="margin-bottom: 20px" data-i18n="payment_history">Payment history</h2>
           <div id="history-list"></div>
         </div>
         <div class="tab-bar" id="history-tabs">
@@ -1344,7 +1322,7 @@
             <p style="font-size: 14px; color: var(--text2)">Jake's Lawn Care</p>
           </div>
 
-          <div class="section-label">Account</div>
+          <div class="section-label" data-i18n="account">Account</div>
           <div
             style="
               background: var(--surface);
@@ -1355,13 +1333,13 @@
             "
           >
             <div class="settings-item">
-              <span class="settings-label">Phone</span>
+              <span class="settings-label" data-i18n="phone">Phone</span>
               <span class="settings-val"
                 >(512) 555-0147 <span class="chevron">›</span></span
               >
             </div>
             <div class="settings-item">
-              <span class="settings-label">Business name</span>
+              <span class="settings-label" data-i18n="business_name">Business name</span>
               <span class="settings-val"
                 >Jake's Lawn Care <span class="chevron">›</span></span
               >
@@ -1371,14 +1349,14 @@
               onclick="go('s-connect-bank')"
               id="bank-setting"
             >
-              <span class="settings-label">Bank / payouts</span>
+              <span class="settings-label" data-i18n="bank_payouts">Bank / payouts</span>
               <span class="settings-val" id="bank-status-text"
-                >Not connected ⚠️ <span class="chevron">›</span></span
+                ><span data-i18n="not_connected">Not connected</span> ⚠️ <span class="chevron">›</span></span
               >
             </div>
           </div>
 
-          <div class="section-label">Preferences</div>
+          <div class="section-label" data-i18n="preferences">Preferences</div>
           <div
             style="
               background: var(--surface);
@@ -1389,26 +1367,26 @@
             "
           >
             <div class="settings-item">
-              <span class="settings-label">Invoice message</span>
+              <span class="settings-label" data-i18n="invoice_message">Invoice message</span>
               <span class="settings-val"
-                >Default <span class="chevron">›</span></span
+                ><span data-i18n="default_val">Default</span> <span class="chevron">›</span></span
               >
             </div>
             <div class="settings-item">
-              <span class="settings-label">Payment reminders</span>
+              <span class="settings-label" data-i18n="payment_reminders">Payment reminders</span>
               <span class="settings-val"
-                >After 3 days <span class="chevron">›</span></span
+                ><span data-i18n="after_3_days">After 3 days</span> <span class="chevron">›</span></span
               >
             </div>
             <div class="settings-item">
-              <span class="settings-label">Recurring invoices</span>
+              <span class="settings-label" data-i18n="recurring_invoices">Recurring invoices</span>
               <span class="settings-val"
-                >Off <span class="chevron">›</span></span
+                ><span data-i18n="off">Off</span> <span class="chevron">›</span></span
               >
             </div>
           </div>
 
-          <div class="section-label">About</div>
+          <div class="section-label" data-i18n="about">About</div>
           <div
             style="
               background: var(--surface);
@@ -1419,15 +1397,15 @@
             "
           >
             <div class="settings-item">
-              <span class="settings-label">Help & support</span>
+              <span class="settings-label" data-i18n="help_support">Help & support</span>
               <span class="settings-val"><span class="chevron">›</span></span>
             </div>
             <div class="settings-item">
-              <span class="settings-label">Rate Tola</span>
+              <span class="settings-label" data-i18n="rate_tola">Rate Tola</span>
               <span class="settings-val"><span class="chevron">›</span></span>
             </div>
             <div class="settings-item">
-              <span class="settings-label">Version</span>
+              <span class="settings-label" data-i18n="version">Version</span>
               <span class="settings-val">0.1.0</span>
             </div>
           </div>
@@ -1435,6 +1413,7 @@
           <button
             class="btn btn-ghost"
             style="color: var(--danger); margin-bottom: 40px"
+            data-i18n="sign_out"
           >
             Sign out
           </button>
@@ -1511,8 +1490,8 @@
                 <path d="M4 14h24" />
               </svg>
             </div>
-            <h2>Connect your bank</h2>
-            <p class="subtitle">
+            <h2 data-i18n="connect_bank_title">Connect your bank</h2>
+            <p class="subtitle" data-i18n="connect_bank_sub">
               Your money goes straight to your bank. Secure & instant.
             </p>
           </div>
@@ -1528,18 +1507,18 @@
             <p
               style="font-size: 12px; color: var(--text3); margin-bottom: 12px"
             >
-              🔒 Secured by Stripe — used by millions of businesses
+              <span data-i18n="secured_stripe">🔒 Secured by Stripe — used by millions of businesses</span>
             </p>
             <div class="input-group">
-              <label>Legal name</label>
+              <label data-i18n="legal_name">Legal name</label>
               <input class="input-field" value="Jake Williams" />
             </div>
             <div class="input-group">
-              <label>Date of birth</label>
+              <label data-i18n="dob">Date of birth</label>
               <input class="input-field" value="03/15/1992" />
             </div>
             <div class="input-group">
-              <label>Last 4 of SSN</label>
+              <label data-i18n="ssn_last4">Last 4 of SSN</label>
               <input
                 class="input-field"
                 type="password"
@@ -1547,7 +1526,7 @@
                 maxlength="4"
               />
             </div>
-            <div class="section-label" style="margin-top: 16px">
+            <div class="section-label" style="margin-top: 16px" data-i18n="payout_method">
               Payout method
             </div>
             <div style="display: flex; gap: 10px; margin-bottom: 16px">
@@ -1563,7 +1542,7 @@
                   background: var(--green-bg);
                 "
               >
-                Debit card
+                <span data-i18n="debit_card">Debit card</span>
               </div>
               <div
                 style="
@@ -1576,17 +1555,17 @@
                   color: var(--text2);
                 "
               >
-                Bank account
+                <span data-i18n="bank_account">Bank account</span>
               </div>
             </div>
             <div class="input-group">
-              <label>Card number</label>
+              <label data-i18n="card_number">Card number</label>
               <input class="input-field" placeholder="4242 4242 4242 4242" />
             </div>
           </div>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn-primary" onclick="connectBank()">
+          <button class="btn btn-primary" onclick="connectBank()" data-i18n="connect_start">
             Connect & start getting paid
           </button>
         </div>
@@ -1617,8 +1596,8 @@
               />
             </svg>
           </div>
-          <h1 style="font-size: 22px" id="payment-title">John just paid $50</h1>
-          <p class="subtitle" id="payment-subtitle">
+          <h1 style="font-size: 22px" id="payment-title"></h1>
+          <p class="subtitle" id="payment-subtitle" data-i18n="money_yours">
             This money is yours — connect your bank to get it
           </p>
           <div
@@ -1642,6 +1621,7 @@
             class="btn btn-primary"
             id="payment-btn"
             onclick="go('s-connect-bank')"
+            data-i18n="connect_bank_2min"
           >
             Connect bank — takes 2 min
           </button>
@@ -1649,6 +1629,7 @@
             class="btn btn-ghost"
             onclick="go('s-dashboard')"
             style="margin-top: 4px"
+            data-i18n="remind_later"
           >
             Remind me later
           </button>
@@ -1677,36 +1658,37 @@
               >t<span style="color: var(--green)">o</span></span
             >
           </div>
-          <h2>Keep Tola one tap away</h2>
-          <p style="font-size: 14px; color: var(--text2); margin-top: 6px">
+          <h2 data-i18n="keep_tola">Keep Tola one tap away</h2>
+          <p style="font-size: 14px; color: var(--text2); margin-top: 6px" data-i18n="a2hs_sub">
             No app store. No download. Just your invoices, ready to go.
           </p>
         </div>
         <div class="a2hs-step">
           <div class="a2hs-num">1</div>
-          <div class="a2hs-text">
+          <div class="a2hs-text" data-i18n-html="a2hs_step1">
             Tap the <strong>share button</strong> at the bottom of your browser
             (the square with an arrow)
           </div>
         </div>
         <div class="a2hs-step">
           <div class="a2hs-num">2</div>
-          <div class="a2hs-text">
+          <div class="a2hs-text" data-i18n-html="a2hs_step2">
             Scroll down and tap <strong>"Add to Home Screen"</strong>
           </div>
         </div>
         <div class="a2hs-step">
           <div class="a2hs-num">3</div>
-          <div class="a2hs-text">Tap <strong>"Add"</strong> — that's it</div>
+          <div class="a2hs-text" data-i18n-html="a2hs_step3">Tap <strong>"Add"</strong> — that's it</div>
         </div>
         <button
           class="btn btn-primary"
           style="margin-top: 20px"
           onclick="dismissA2HS()"
+          data-i18n="show_me"
         >
           Show me how
         </button>
-        <button class="btn btn-ghost" onclick="dismissA2HS()">
+        <button class="btn btn-ghost" onclick="dismissA2HS()" data-i18n="maybe_later">
           Maybe later
         </button>
       </div>
@@ -1716,9 +1698,249 @@
     <div class="toast" id="toast"></div>
 
     <script>
+      // ── i18n translations ──
+      const i18n = {
+        en: {
+          hero_title: 'Stop chasing<br />payments.',
+          hero_sub: 'Text an invoice. They tap a link.<br>Money hits your account.',
+          get_started: 'Get started',
+          hero_footer: 'No app download. No subscription. No catch.',
+          setup_title: 'Set up your business',
+          setup_sub: 'Three fields. 30 seconds.',
+          label_name: 'Your name',
+          label_biz: 'Business name',
+          label_phone: 'Phone number',
+          btn_continue: 'Continue',
+          verify_title: 'Verify your number',
+          verify_sub: 'Code sent to (512) 555-0147',
+          resend: 'Resend code',
+          today: 'Today',
+          collected: 'Collected',
+          owed: 'Owed to you',
+          clients: 'Clients',
+          send_invoice: 'Send invoice',
+          add_client: '+ Add client',
+          tab_home: 'Home',
+          tab_history: 'History',
+          tab_profile: 'Profile',
+          empty_msg: 'You\'re set up. Finish a job,<br>then tap <strong style="color:var(--green)">"Send invoice"</strong> to get paid.',
+          owed_label: 'Owed to you',
+          badge_overdue: 'Overdue',
+          badge_sent: 'Sent',
+          badge_paid: 'Paid',
+          send_reminder: 'Send reminder',
+          money_waiting: '💰 You have money waiting',
+          money_waiting_sub: 'Connect your bank to cash out now',
+          d_ago: 'd ago',
+          invoice_who: 'Invoice who?',
+          search_hint: 'Search by name or address',
+          search_placeholder: 'Name or address...',
+          recent: 'Recent',
+          usual: 'usual',
+          next: 'Next',
+          usual_rate: 'Their usual rate — tap to adjust',
+          send_invoice_amount: 'Send invoice — $',
+          boom_sent: 'Boom — invoice sent',
+          sent_sub_tpl: '{name} just got a text. You\'ll know when they pay.',
+          what_they_see: 'What they see',
+          sms_tpl: 'Hi {name}, here\'s your lawn service invoice for <strong>${amount}</strong> from {biz}.',
+          back_dashboard: 'Back to dashboard',
+          new_customer: 'New customer',
+          label_cust_name: 'Name',
+          label_cust_phone: 'Phone',
+          label_cust_addr: 'Address',
+          label_usual_price: 'Usual price',
+          btn_add_customer: 'Add customer',
+          payment_history: 'Payment history',
+          no_invoices: 'No invoices yet — send your first one from the home screen',
+          account: 'Account',
+          preferences: 'Preferences',
+          about: 'About',
+          phone: 'Phone',
+          business_name: 'Business name',
+          bank_payouts: 'Bank / payouts',
+          not_connected: 'Not connected',
+          invoice_message: 'Invoice message',
+          default_val: 'Default',
+          payment_reminders: 'Payment reminders',
+          after_3_days: 'After 3 days',
+          recurring_invoices: 'Recurring invoices',
+          off: 'Off',
+          help_support: 'Help & support',
+          rate_tola: 'Rate Tola',
+          version: 'Version',
+          sign_out: 'Sign out',
+          connect_bank_title: 'Connect your bank',
+          connect_bank_sub: 'Your money goes straight to your bank. Secure & instant.',
+          secured_stripe: '🔒 Secured by Stripe — used by millions of businesses',
+          legal_name: 'Legal name',
+          dob: 'Date of birth',
+          ssn_last4: 'Last 4 of SSN',
+          payout_method: 'Payout method',
+          debit_card: 'Debit card',
+          bank_account: 'Bank account',
+          card_number: 'Card number',
+          connect_start: 'Connect & start getting paid',
+          just_paid_tpl: '{name} just paid ${amount}',
+          money_yours: 'This money is yours — connect your bank to get it',
+          waiting_tpl: '<strong>${amount}</strong> is waiting in your account. The longer you wait, the longer your money sits unclaimed.',
+          connect_bank_2min: 'Connect bank — takes 2 min',
+          remind_later: 'Remind me later',
+          keep_tola: 'Keep Tola one tap away',
+          a2hs_sub: 'No app store. No download. Just your invoices, ready to go.',
+          a2hs_step1: 'Tap the <strong>share button</strong> at the bottom of your browser (the square with an arrow)',
+          a2hs_step2: 'Scroll down and tap <strong>"Add to Home Screen"</strong>',
+          a2hs_step3: 'Tap <strong>"Add"</strong> — that\'s it',
+          show_me: 'Show me how',
+          maybe_later: 'Maybe later',
+          toast_reminder: 'Reminder sent — they\'ll get a text now',
+          toast_added_tpl: '{name} added — ready to invoice',
+          toast_bank: 'Bank connected — you\'re getting paid!',
+          toast_enter_name: 'Enter a name',
+          toast_paid_tpl: '💵 {name} paid you ${amount}!',
+        },
+        es: {
+          hero_title: 'Deja de perseguir<br />pagos.',
+          hero_sub: 'Envía una factura por mensaje. Tocan un link.<br>El dinero llega a tu cuenta.',
+          get_started: 'Comenzar',
+          hero_footer: 'Sin descargas. Sin suscripción. Sin letra chica.',
+          setup_title: 'Configura tu negocio',
+          setup_sub: 'Tres campos. 30 segundos.',
+          label_name: 'Tu nombre',
+          label_biz: 'Nombre del negocio',
+          label_phone: 'Número de teléfono',
+          btn_continue: 'Continuar',
+          verify_title: 'Verifica tu número',
+          verify_sub: 'Código enviado al (512) 555-0147',
+          resend: 'Reenviar código',
+          today: 'Hoy',
+          collected: 'Cobrado',
+          owed: 'Te deben',
+          clients: 'Clientes',
+          send_invoice: 'Enviar factura',
+          add_client: '+ Agregar cliente',
+          tab_home: 'Inicio',
+          tab_history: 'Historial',
+          tab_profile: 'Perfil',
+          empty_msg: 'Todo listo. Termina un trabajo,<br>luego toca <strong style="color:var(--green)">"Enviar factura"</strong> para cobrar.',
+          owed_label: 'Te deben',
+          badge_overdue: 'Vencida',
+          badge_sent: 'Enviada',
+          badge_paid: 'Pagada',
+          send_reminder: 'Enviar recordatorio',
+          money_waiting: '💰 Tienes dinero esperando',
+          money_waiting_sub: 'Conecta tu banco para recibirlo ahora',
+          d_ago: 'd atrás',
+          invoice_who: '¿A quién le cobras?',
+          search_hint: 'Busca por nombre o dirección',
+          search_placeholder: 'Nombre o dirección...',
+          recent: 'Recientes',
+          usual: 'habitual',
+          next: 'Siguiente',
+          usual_rate: 'Su tarifa habitual — toca para cambiar',
+          send_invoice_amount: 'Enviar factura — $',
+          boom_sent: '¡Listo — factura enviada!',
+          sent_sub_tpl: '{name} acaba de recibir un mensaje. Te avisamos cuando pague.',
+          what_they_see: 'Lo que reciben',
+          sms_tpl: 'Hola {name}, aquí está tu factura de servicio de jardinería por <strong>${amount}</strong> de {biz}.',
+          back_dashboard: 'Volver al inicio',
+          new_customer: 'Nuevo cliente',
+          label_cust_name: 'Nombre',
+          label_cust_phone: 'Teléfono',
+          label_cust_addr: 'Dirección',
+          label_usual_price: 'Precio habitual',
+          btn_add_customer: 'Agregar cliente',
+          payment_history: 'Historial de pagos',
+          no_invoices: 'Aún no hay facturas — envía la primera desde la pantalla de inicio',
+          account: 'Cuenta',
+          preferences: 'Preferencias',
+          about: 'Acerca de',
+          phone: 'Teléfono',
+          business_name: 'Nombre del negocio',
+          bank_payouts: 'Banco / retiros',
+          not_connected: 'Sin conectar',
+          invoice_message: 'Mensaje de factura',
+          default_val: 'Predeterminado',
+          payment_reminders: 'Recordatorios de pago',
+          after_3_days: 'Después de 3 días',
+          recurring_invoices: 'Facturas recurrentes',
+          off: 'Desactivado',
+          help_support: 'Ayuda y soporte',
+          rate_tola: 'Calificar Tola',
+          version: 'Versión',
+          sign_out: 'Cerrar sesión',
+          connect_bank_title: 'Conecta tu banco',
+          connect_bank_sub: 'Tu dinero va directo a tu banco. Seguro e instantáneo.',
+          secured_stripe: '🔒 Protegido por Stripe — usado por millones de negocios',
+          legal_name: 'Nombre legal',
+          dob: 'Fecha de nacimiento',
+          ssn_last4: 'Últimos 4 del SSN',
+          payout_method: 'Método de retiro',
+          debit_card: 'Tarjeta de débito',
+          bank_account: 'Cuenta bancaria',
+          card_number: 'Número de tarjeta',
+          connect_start: 'Conectar y empezar a cobrar',
+          just_paid_tpl: '{name} te pagó ${amount}',
+          money_yours: 'Este dinero es tuyo — conecta tu banco para recibirlo',
+          waiting_tpl: '<strong>${amount}</strong> está esperando en tu cuenta. Entre más esperes, más tiempo pasa tu dinero sin cobrar.',
+          connect_bank_2min: 'Conectar banco — toma 2 min',
+          remind_later: 'Recordarme después',
+          keep_tola: 'Ten Tola a un toque',
+          a2hs_sub: 'Sin tienda de apps. Sin descarga. Solo tus facturas, listas para usar.',
+          a2hs_step1: 'Toca el <strong>botón de compartir</strong> en la parte inferior de tu navegador (el cuadrado con una flecha)',
+          a2hs_step2: 'Baja y toca <strong>"Agregar a pantalla de inicio"</strong>',
+          a2hs_step3: 'Toca <strong>"Agregar"</strong> — eso es todo',
+          show_me: 'Muéstrame cómo',
+          maybe_later: 'Quizás después',
+          toast_reminder: 'Recordatorio enviado — le va a llegar un mensaje ahora',
+          toast_added_tpl: '{name} agregado — listo para facturar',
+          toast_bank: '¡Banco conectado — ya puedes cobrar!',
+          toast_enter_name: 'Ingresa un nombre',
+          toast_paid_tpl: '💵 ¡{name} te pagó ${amount}!',
+        }
+      };
+
+      function T(key) { return i18n[state.lang][key] || i18n.en[key] || key; }
+
+      function translatePage() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          const val = T(key);
+          if (val) el.innerHTML = val;
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+          const key = el.getAttribute('data-i18n-html');
+          const val = T(key);
+          if (val) el.innerHTML = val;
+        });
+        // Update tab labels
+        const tabLabels = [T('tab_home'), T('tab_history'), T('tab_profile')];
+        document.querySelectorAll('.tab').forEach(tab => {
+          const text = tab.childNodes[tab.childNodes.length - 1];
+          if (text && text.nodeType === 3) {
+            const current = text.textContent.trim();
+            if (['Home','History','Profile','Inicio','Historial','Perfil'].includes(current)) {
+              const idx = ['Home','Inicio'].includes(current) ? 0 :
+                          ['History','Historial'].includes(current) ? 1 : 2;
+              text.textContent = '\n            ' + tabLabels[idx] + '\n          ';
+            }
+          }
+        });
+        // Update search placeholder
+        const searchInput = document.getElementById('customer-search');
+        if (searchInput) searchInput.placeholder = T('search_placeholder');
+      }
+
+      function setLang(lang) {
+        state.lang = lang;
+        translatePage();
+        go('s-landing');
+      }
+
       // State
       let state = {
-        currentScreen: "s-landing",
+        currentScreen: "s-lang",
+        lang: "en",
         customers: [
           {
             id: 1,
@@ -1771,6 +1993,7 @@
         if (screenId === "s-pick-customer") renderCustomerList();
         if (screenId === "s-amount") renderAmount();
         if (screenId === "s-history") renderHistory();
+        translatePage();
       }
 
       function switchTab(el, screenId) {
@@ -1824,7 +2047,7 @@
             (i === state.pin.length ? " active" : "");
         });
         if (state.pin.length === 6) {
-          setTimeout(() => go("s-first-customer"), 400);
+          setTimeout(() => go("s-dashboard"), 400);
         }
       });
 
@@ -1859,7 +2082,7 @@
           div.innerHTML = `
       <div style="font-size:15px;font-weight:500">${c.name}</div>
       <div style="font-size:13px;color:var(--text2);margin-top:3px">${c.address}</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:3px">$${c.price} usual</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:3px">$${c.price} ${T('usual')}</div>
     `;
           div.onclick = () => {
             container
@@ -1910,9 +2133,10 @@
         state.invoiceCount++;
 
         document.getElementById("sent-subtitle").textContent =
-          `${c.name.split(" ")[0]} just got a text. You'll know when they pay.`;
+          T('sent_sub_tpl').replace('{name}', c.name.split(" ")[0]);
         document.getElementById("sms-preview").innerHTML =
-          `Hi ${c.name.split(" ")[0]}, here's your lawn service invoice for <strong>$${amount}</strong> from Jake's Lawn Care.<br><br><span style="color:var(--green);text-decoration:underline">pay.gettola.com/inv/${String(inv.id).slice(-4)}</span>`;
+          T('sms_tpl').replace('{name}', c.name.split(" ")[0]).replace('${amount}', amount).replace('{biz}', "Jake's Lawn Care") +
+          `<br><br><span style="color:var(--green);text-decoration:underline">pay.gettola.com/inv/${String(inv.id).slice(-4)}</span>`;
 
         go("s-invoice-sent");
 
@@ -1920,7 +2144,12 @@
         setTimeout(() => {
           inv.status = "paid";
           inv.paidAt = new Date();
-          showToast(`💵 ${c.name.split(" ")[0]} paid you $${amount}!`);
+          showToast(T('toast_paid_tpl').replace('{name}', c.name.split(" ")[0]).replace('${amount}', amount));
+          // Update payment received screen
+          document.getElementById('payment-title').textContent =
+            T('just_paid_tpl').replace('{name}', c.name.split(' ')[0]).replace('${amount}', amount);
+          document.getElementById('payment-cta').innerHTML =
+            T('waiting_tpl').replace('${amount}', amount + '.00');
         }, 5000);
       }
 
@@ -1951,20 +2180,20 @@
 
         let html = `
     <div style="margin-bottom:20px">
-      <span style="font-size:13px;color:var(--text3)">Today</span><br>
+      <span style="font-size:13px;color:var(--text3)">${T('today')}</span><br>
       <span style="font-size:20px;font-weight:500">Jake's Lawn Care</span>
     </div>
     <div class="stats">
       <div class="stat">
-        <div class="stat-label">Collected</div>
+        <div class="stat-label">${T('collected')}</div>
         <div class="stat-val" style="color:var(--green)">$${paidTotal}</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Owed to you</div>
+        <div class="stat-label">${T('owed')}</div>
         <div class="stat-val" style="color:${unpaidTotal > 0 ? "var(--warn)" : "var(--text)"}">$${unpaidTotal}</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Clients</div>
+        <div class="stat-label">${T('clients')}</div>
         <div class="stat-val">${state.customers.length}</div>
       </div>
     </div>
@@ -1975,11 +2204,11 @@
       <div class="empty-icon">
         <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
       </div>
-      <p style="text-align:center;font-size:15px;color:var(--text2);line-height:1.5">You're set up. Finish a job,<br>then tap <strong style="color:var(--green)">"Send invoice"</strong> to get paid.</p>
+      <p style="text-align:center;font-size:15px;color:var(--text2);line-height:1.5">${T('empty_msg')}</p>
     `;
         } else {
           if (unpaid.length > 0) {
-            html += `<div class="section-label">Owed to you (${unpaid.length})</div>`;
+            html += `<div class="section-label">${T('owed_label')} (${unpaid.length})</div>`;
             unpaid.forEach((inv) => {
               const days = Math.floor(
                 (Date.now() - inv.date.getTime()) / 86400000,
@@ -1994,12 +2223,12 @@
               </div>
               <div style="text-align:right">
                 <div style="font-size:16px;font-weight:500">$${inv.amount}</div>
-                <div style="font-size:11px;color:var(--text3);margin-top:2px">${days === 0 ? "Today" : days + "d ago"}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px">${days === 0 ? T('today') : days + T('d_ago')}</div>
               </div>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-              <span class="badge ${overdue ? "badge-overdue" : "badge-sent"}">${overdue ? "Overdue" : "Sent"}</span>
-              ${overdue ? '<button class="remind-btn" onclick="showToast(\'Reminder sent — they\\\'ll get a text now\')">Send reminder</button>' : ""}
+              <span class="badge ${overdue ? "badge-overdue" : "badge-sent"}">${overdue ? T('badge_overdue') : T('badge_sent')}</span>
+              ${overdue ? '<button class="remind-btn" onclick="showToast(T(\'toast_reminder\'))">' + T('send_reminder') + '</button>' : ""}
             </div>
           </div>
         `;
@@ -2008,7 +2237,7 @@
 
           const paid = state.invoices.filter((i) => i.status === "paid");
           if (paid.length > 0) {
-            html += `<div class="section-label" style="margin-top:16px">Paid</div>`;
+            html += `<div class="section-label" style="margin-top:16px">${T('badge_paid')}</div>`;
             paid.slice(0, 5).forEach((inv) => {
               html += `
           <div class="card" style="cursor:default;opacity:0.7">
@@ -2019,7 +2248,7 @@
               </div>
               <div style="text-align:right">
                 <div style="font-size:16px;font-weight:500;color:var(--green)">$${inv.amount}</div>
-                <span class="badge badge-paid">Paid</span>
+                <span class="badge badge-paid">${T('badge_paid')}</span>
               </div>
             </div>
           </div>
@@ -2035,8 +2264,8 @@
         ) {
           html += `
       <div style="background:var(--green-bg);border:1px solid rgba(29,185,84,0.2);border-radius:var(--radius);padding:16px;margin-top:16px;cursor:pointer" onclick="go('s-connect-bank')">
-        <div style="font-size:14px;font-weight:500;color:var(--green);margin-bottom:4px">💰 You have money waiting</div>
-        <div style="font-size:13px;color:var(--text2)">Connect your bank to cash out now</div>
+        <div style="font-size:14px;font-weight:500;color:var(--green);margin-bottom:4px">${T('money_waiting')}</div>
+        <div style="font-size:13px;color:var(--text2)">${T('money_waiting_sub')}</div>
       </div>
     `;
         }
@@ -2051,7 +2280,7 @@
         if (state.invoices.length === 0) {
           container.innerHTML = `
       <div style="text-align:center;padding:60px 20px">
-        <p style="color:var(--text3);font-size:15px">No invoices yet — send your first one from the home screen</p>
+        <p style="color:var(--text3);font-size:15px">${T('no_invoices')}</p>
       </div>
     `;
           return;
@@ -2068,7 +2297,7 @@
           </div>
           <div style="text-align:right">
             <div style="font-size:16px;font-weight:500;color:${inv.status === "paid" ? "var(--green)" : "var(--text)"}">$${inv.amount}</div>
-            <span class="badge ${inv.status === "paid" ? "badge-paid" : "badge-sent"}" style="margin-top:4px">${inv.status === "paid" ? "Paid" : "Sent"}</span>
+            <span class="badge ${inv.status === "paid" ? "badge-paid" : "badge-sent"}" style="margin-top:4px">${inv.status === "paid" ? T('badge_paid') : T('badge_sent')}</span>
           </div>
         </div>
       </div>
@@ -2088,7 +2317,7 @@
             document.getElementById("new-cust-price").value.replace(/\D/g, ""),
           ) || 50;
         if (!name) {
-          showToast("Enter a name");
+          showToast(T('toast_enter_name'));
           return;
         }
         state.customers.unshift({
@@ -2105,7 +2334,7 @@
           "new-cust-addr",
           "new-cust-price",
         ].forEach((id) => (document.getElementById(id).value = ""));
-        showToast(`${name} added — ready to invoice`);
+        showToast(T('toast_added_tpl').replace('{name}', name));
         go("s-dashboard");
       }
 
@@ -2114,7 +2343,7 @@
         state.bankConnected = true;
         document.getElementById("bank-status-text").innerHTML =
           'Visa •••• 4242 <span class="chevron">›</span>';
-        showToast("Bank connected — you're getting paid!");
+        showToast(T('toast_bank'));
         go("s-profile");
       }
 
