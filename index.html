@@ -800,7 +800,7 @@
             >
               Text an invoice. They tap a link.<br>Money hits your account.
             </p>
-            <button class="btn btn-primary" onclick="go('s-signup')" data-i18n="get_started">
+            <button class="btn btn-primary" onclick="if(window.posthog)posthog.capture('signup_started');go('s-signup')" data-i18n="get_started">
               Get started
             </button>
             <p style="font-size: 12px; color: var(--text3); margin-top: 16px" data-i18n="hero_footer">
@@ -865,7 +865,7 @@
           </div>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn-primary" onclick="go('s-verify')" data-i18n="btn_continue">
+          <button class="btn btn-primary" onclick="signupContinue()" data-i18n="btn_continue">
             Continue
           </button>
         </div>
@@ -925,7 +925,7 @@
           <button
             class="btn btn-primary"
             style="flex: 1.2"
-            onclick="go('s-pick-customer')"
+            onclick="if(window.posthog)posthog.capture('invoice_initiated');go('s-pick-customer')"
           >
             <svg
               viewBox="0 0 24 24"
@@ -1506,7 +1506,7 @@
           </div>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn-primary" onclick="connectBank()" data-i18n="connect_start">
+          <button class="btn btn-primary" onclick="if(window.posthog)posthog.capture('bank_connection_started');connectBank()" data-i18n="connect_start">
             Connect & start getting paid
           </button>
         </div>
@@ -1804,7 +1804,19 @@
       function setLang(lang) {
         state.lang = lang;
         translatePage();
+        if (window.posthog) posthog.capture('language_selected', { language: lang });
         go('s-landing');
+      }
+
+      function signupContinue() {
+        if (window.posthog) {
+          const phone = document.getElementById('inp-phone').value.trim();
+          const name = document.getElementById('inp-name').value.trim();
+          const biz = document.getElementById('inp-biz').value.trim();
+          posthog.identify(phone || posthog.get_distinct_id(), { name: name, business_name: biz });
+          posthog.capture('signup_completed', { language: state.lang });
+        }
+        go('s-verify');
       }
 
       // State
@@ -1922,6 +1934,7 @@
             (i === state.pin.length ? " active" : "");
         });
         if (state.pin.length === 6) {
+          if (window.posthog) posthog.capture('verification_completed');
           setTimeout(() => go("s-dashboard"), 400);
         }
       });
@@ -1967,6 +1980,7 @@
             state.selectedCustomer = c;
             state.currentAmount = "";
             document.getElementById("btn-next-amount").disabled = false;
+            if (window.posthog) posthog.capture('customer_selected', { customer_id: c.id });
           };
           container.appendChild(div);
         });
@@ -2013,12 +2027,14 @@
           T('sms_tpl').replace('{name}', c.name.split(" ")[0]).replace('${amount}', amount).replace('{biz}', "Jake's Lawn Care") +
           `<br><br><span style="color:var(--green);text-decoration:underline">pay.gettola.com/inv/${String(inv.id).slice(-4)}</span>`;
 
+        if (window.posthog) posthog.capture('invoice_sent', { invoice_amount: amount, customer_id: c.id });
         go("s-invoice-sent");
 
         // Simulate payment after 5s
         setTimeout(() => {
           inv.status = "paid";
           inv.paidAt = new Date();
+          if (window.posthog) posthog.capture('payment_received', { invoice_amount: amount, customer_id: c.id });
           showToast(T('toast_paid_tpl').replace('{name}', c.name.split(" ")[0]).replace('${amount}', amount));
           // Update payment received screen
           document.getElementById('payment-title').textContent =
@@ -2091,7 +2107,7 @@
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
               <span class="badge ${overdue ? "badge-overdue" : "badge-sent"}">${overdue ? T('badge_overdue') : T('badge_sent')}</span>
-              ${overdue ? '<button class="remind-btn" onclick="showToast(T(\'toast_reminder\'))">' + T('send_reminder') + '</button>' : ""}
+              ${overdue ? '<button class="remind-btn" onclick="if(window.posthog)posthog.capture(\'payment_reminder_sent\',{invoice_id:' + inv.id + ',invoice_amount:' + inv.amount + '});showToast(T(\'toast_reminder\'))">' + T('send_reminder') + '</button>' : ""}
             </div>
           </div>
         `;
@@ -2197,6 +2213,7 @@
           "new-cust-addr",
           "new-cust-price",
         ].forEach((id) => (document.getElementById(id).value = ""));
+        if (window.posthog) posthog.capture('customer_added', { customer_count: state.customers.length });
         showToast(T('toast_added_tpl').replace('{name}', name));
         go("s-dashboard");
       }
@@ -2204,6 +2221,7 @@
       // Connect bank
       function connectBank() {
         state.bankConnected = true;
+        if (window.posthog) posthog.capture('bank_connected');
         document.getElementById("bank-status-text").innerHTML =
           'Visa •••• 4242 <span class="chevron">›</span>';
         showToast(T('toast_bank'));

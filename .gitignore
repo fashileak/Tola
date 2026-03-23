@@ -1,3 +1,4 @@
 .DS_Store
-sms-invoicing-spec.md
 .claude/
+.env
+*.md
